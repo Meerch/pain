@@ -17,7 +17,7 @@ import {formatEther, toWei} from '../../../../helpers/utils';
 
 // const mainProgress = 0.74
 
-export const Speedometer = memo(() => {
+const Speedometer = memo(() => {
     const stats = useSelector((state: RootState) => state.speedometer?.stats)
     const dispatch = useTypedDispatch()
     const [progress, setProgress] = useState(0)
@@ -71,3 +71,8 @@ export const Speedometer = memo(() => {
         </div>
     )
 })
+
+
+Speedometer.displayName = 'Speedometer'
+
+export default Speedometer;
