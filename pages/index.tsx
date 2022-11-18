@@ -10,16 +10,18 @@ import PopupSuccess from "../components/Popup/PopupSuccess/PopupSuccess";
 import {popupActions} from "../store/Popup/popupSlice";
 import {useCallback, useEffect, useRef, useState} from "react";
 import FOG from 'vanta/dist/vanta.fog.min'
-import useSound from "use-sound";
+
 // @ts-ignore
 import soundClick from "../public/sounds/click.mp3";
+import {useCustomSound} from "../hooks/useCustomSound";
+import {volumeSoundsActions} from "../components/StateSound";
 
 export default function Home() {
     const currentPopup = useTypedSelector(state => state.popup.currentPopup)
     const dispatch = useTypedDispatch()
     const {isMobile, isDesktop} = useDetectDevice()
     const [isReady, setIsReady] = useState(false)
-    const [play] = useSound(soundClick, {
+    const {play} = useCustomSound(soundClick, {
         volume: 0.3
     })
 
@@ -48,14 +50,13 @@ export default function Home() {
     }, [isReady])
 
     useEffect(() => {
-        // console.log('ready')
         const timer = setTimeout(() => {
             setIsReady(true)
         }, 5000)
 
-        // setIsReady(true)
+        dispatch(volumeSoundsActions.initState())
 
-        // return () => clearTimeout(timer)
+        return () => clearTimeout(timer)
     }, [])
 
     const [vantaEffect, setVantaEffect] = useState(null)

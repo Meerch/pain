@@ -8,59 +8,16 @@ import '@rainbow-me/rainbowkit/styles.css';
 import {getDefaultWallets, RainbowKitProvider,} from '@rainbow-me/rainbowkit';
 import {Chain, chain, configureChains, createClient, WagmiConfig,} from 'wagmi';
 import {jsonRpcProvider} from 'wagmi/providers/jsonRpc';
+import {chains, wagmiClient } from '../blockchain/config';
 
-const avalancheChain: Chain = {
-    id: 5,
-    name: 'Görli',
-    network: 'https://goerli.net/',
-    nativeCurrency: {
-        decimals: 5,
-        name: 'Görli',
-        symbol: 'ETH',
-    },
-    rpcUrls: {
-        default: 'https://rpc.ankr.com/eth_goerli',
-    },
-    blockExplorers: {
-        default: {name: 'Görli', url: 'https://goerli.net'},
-    },
-    testnet: true,
-}
-
-const {chains, provider} = configureChains(
-    [avalancheChain],
-    [
-        jsonRpcProvider({
-            rpc: chain => ({http: chain.rpcUrls.default}),
-        }),
-    ]
-);
-
-const {connectors} = getDefaultWallets({
-    appName: 'Pain',
-    chains
-})
-
-// const connectors = connectorsForWallets([
-//     {
-//         groupName: 'All',
-//         chains
-//         // wallets: [
-//         //     metaMaskWallet({chains}),
-//         //     walletConnectWallet({chains})
-//         // ]
-//     }
-// ]);
-
-const wagmiClient = createClient({
-    autoConnect: true,
-    connectors,
-    provider
-})
+const title = 'Pain'
+const description = '6,666 AI-generated faces of pAIn. You can only mint when the ETH price is down.'
+const url = 'https://pppain.com'
 
 function App({Component, pageProps}: AppProps) {
     return <>
         <Head>
+            <title>Pain</title>
             <link rel="manifest" href="/favicon/manifest.json"/>
             <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png"/>
@@ -83,12 +40,33 @@ function App({Component, pageProps}: AppProps) {
             <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png"/>
             <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png"/>
             <link rel="manifest" href="favicon/site.webmanifest"/>
-            <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5"/>
+            <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#FF453E"/>
             <meta name="msapplication-TileColor" content="#da532c"/>
             <meta name="theme-color" content="#ffffff"/>
-            <title>Pain</title>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer/>
-            <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.waves.min.js" defer/>
+            <meta
+                property="og:image"
+                content={`${url}/favicon/snippet.png`}
+            />
+            <meta
+                name="twitter:image"
+                content={`${url}/favicon/snippet.png`}
+            />
+            <meta name="description" content={description}/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" content={url}/>
+            <meta property="og:title" content={title}/>
+            <meta property="og:description" content={description}/>
+
+            <meta property="og:site_name" content={url}/>
+            <meta name="twitter:card" content="summary_large_image"/>
+            <meta name="twitter:creator" content={`@${title}`}/>
+            <meta name="twitter:title" content={title}/>
+            <meta name="twitter:description" content={description}/>
+            <meta name="twitter:site" content={`@${title}`}/>
+            <meta name="twitter:domain" content={url}/>
+
+            <script src={"https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"} defer/>
+            <script src={"https://cdn.jsdelivr.net/npm/vanta/dist/vanta.waves.min.js"} defer/>
         </Head>
 
         <Provider store={store}>

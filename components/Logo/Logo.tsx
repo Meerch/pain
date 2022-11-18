@@ -1,11 +1,30 @@
 import styles from './Logo.module.scss'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useContractRead} from "wagmi";
 import {generateContractPainSetting} from "../../blockchain/utils";
 import {formatEther, toWei} from "../../helpers/utils";
+// @ts-ignore
+import soundHoverLogo from '../../public/sounds/hover-logo.mp3'
+import {useHover} from "../../hooks/useHover";
+import {useCustomSound} from "../../hooks/useCustomSound";
 
 export const Logo = () => {
     const [supplies, setSupplies] = useState([])
+    const {play, stop} = useCustomSound(soundHoverLogo, {
+        volume: 0.2
+    })
+    const [isHover, bindHover] = useHover()
+
+
+    useEffect(() => {
+        console.log('isHover', isHover)
+        if (isHover) {
+            play()
+        } else {
+            stop()
+        }
+    }, [isHover, play, stop])
+
     const changeSupplies = (index: number, data) => {
         setSupplies(prev => {
             const clone = [...prev]
@@ -35,22 +54,24 @@ export const Logo = () => {
         select: (data) => toWei(formatEther(data))
     }))
 
+
+
     return (
         <div className={styles.logo}>
-            {/*<img*/}
-            {/*    style={{width: '167px'}}*/}
-            {/*    className={styles.ai}*/}
-            {/*    src="/images/logo-descriptions/ai-4x.png"*/}
-            {/*    alt="6666 ai-generate fakcec of"*/}
-            {/*/>*/}
             <span className={styles.ai}>
                 6666 AI-Generated<br/>Faces of
             </span>
-            <img
-                className={styles.logoImage}
-                src="/images/logo.gif"
-                alt="PAIN"
-            />
+            <div {...bindHover} className={styles.logoImage}>
+                {
+                    isHover
+                        ? <img
+                            src="/images/logo.gif"
+                            alt="PAIN"
+                        />
+                        : <img src="/images/logo.jpg" alt="LOGO"/>
+                }
+            </div>
+            
             <img
 
                 style={{width: '144px'}}
@@ -65,17 +86,9 @@ export const Logo = () => {
 
             <div className={styles.nftMinted}>
                 <span className={styles.title}>NFT minted:</span>
-                {/*<img*/}
-                {/*    style={{width: '114px'}}*/}
-                {/*    className={styles.text}*/}
-                {/*    src="/images/logo-descriptions/nft-minted-4x.png"*/}
-                {/*    alt="NFT minted"*/}
-                {/*/>*/}
                 <span className={styles.amount}>
                     {
-                        supplies?.length
-                            ? 6666 - supplies?.reduce((a, b) => a + b)
-                            : 0
+                        supplies?.length ? 6666 - supplies?.reduce((a, b) => a + b) : 0
                     }
                     /6666
                 </span>

@@ -5,9 +5,9 @@ import {useTypedDispatch} from "../../../hooks/useTypedDispatch";
 import {popupActions} from "../../../store/Popup/popupSlice";
 import {RootState} from "../../../store/store";
 import { useSelector } from 'react-redux';
-import useSound from "use-sound";
 // @ts-ignore
 import soundConnect from "../../../public/sounds/success-mint.mp3";
+import {useCustomSound} from "../../../hooks/useCustomSound";
 
 interface PopupLayoutProps {
     onClose: () => void
@@ -16,7 +16,7 @@ interface PopupLayoutProps {
 const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
     const dispatch = useTypedDispatch()
     const amountMintedNfts = useSelector((state: RootState) => state.popup.amountMintedNfts)
-    const [play, {stop}] = useSound(soundConnect)
+    const {play, stop} = useCustomSound(soundConnect)
 
     const onClickButton = () => {
         dispatch(popupActions.changeCurrentPopup(null))

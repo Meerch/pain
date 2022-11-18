@@ -24,6 +24,20 @@
     }
 }
 
+.wrapperButton {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    @media (min-width: $media-min-screen) {
+        order: 3;
+    }
+}
+
+.switcherVolumeSound {
+    margin-right: 35px;
+}
+
 .connect {
     cursor: pointer;
     position: relative;
@@ -33,7 +47,6 @@
     }
 
     @media (min-width: $media-min-screen) {
-        order: 3;
 
         svg {
             display: block;
