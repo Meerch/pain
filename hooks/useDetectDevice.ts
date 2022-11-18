@@ -24,7 +24,6 @@ export const useDetectDevice = () => {
 
         return () => {
             window.removeEventListener('resize', changeIsDesktop);
-
         }
     }, [])
 

@@ -1,18 +1,13 @@
 import '../styles/globals.scss'
-import 'swiper/css';
 import {AppProps} from 'next/app';
 import Head from "next/head";
 import {Provider} from 'react-redux';
 import {createWrapper} from 'next-redux-wrapper';
 import {store} from '../store/store';
 import '@rainbow-me/rainbowkit/styles.css';
-import {connectorsForWallets, getDefaultWallets, RainbowKitProvider,} from '@rainbow-me/rainbowkit';
+import {getDefaultWallets, RainbowKitProvider,} from '@rainbow-me/rainbowkit';
 import {Chain, chain, configureChains, createClient, WagmiConfig,} from 'wagmi';
-import {publicProvider} from 'wagmi/providers/public';
 import {jsonRpcProvider} from 'wagmi/providers/jsonRpc';
-import {metaMaskWallet, walletConnectWallet} from '@rainbow-me/rainbowkit/wallets';
-import Script from 'next/script'
-
 
 const avalancheChain: Chain = {
     id: 5,
@@ -66,6 +61,7 @@ const wagmiClient = createClient({
 function App({Component, pageProps}: AppProps) {
     return <>
         <Head>
+            <link rel="manifest" href="/favicon/manifest.json"/>
             <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png"/>
@@ -79,7 +75,6 @@ function App({Component, pageProps}: AppProps) {
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
             <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png"/>
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
-            <link rel="manifest" href="/favicon/manifest.json"/>
             <meta name="msapplication-TileColor" content="#ffffff"/>
             <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
             <meta name="theme-color" content="#ffffff"/>

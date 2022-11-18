@@ -14,7 +14,6 @@ import FOG from 'vanta/dist/vanta.fog.min'
 import useSound from "use-sound";
 // @ts-ignore
 import soundClick from "../public/sounds/click.mp3";
-import Script from "next/script";
 
 export default function Home() {
     const currentPopup = useTypedSelector(state => state.popup.currentPopup)
@@ -50,12 +49,14 @@ export default function Home() {
     }, [isReady])
 
     useEffect(() => {
-        console.log('ready')
+        // console.log('ready')
         const timer = setTimeout(() => {
             setIsReady(true)
         }, 5000)
 
-        return () => clearTimeout(timer)
+        // setIsReady(true)
+
+        // return () => clearTimeout(timer)
     }, [])
 
     const [vantaEffect, setVantaEffect] = useState(null)
@@ -95,19 +96,15 @@ export default function Home() {
                 </div>
             }
             <div ref={myRef} className='content-app'>
-                {/*<div ref={myRef} className="background-animation"/>*/}
                 {isDesktop && <DesktopWrapper/>}
                 {isMobile && <MobileWrapper/>}
                 <Gallery/>
                 <Footer/>
-                <img className='background-element background-statistic' src="/images/background-statistic-btc.png"
-                     alt=""/>
-                {/*<img className='background-element background-dancer' src="/images/background-element-2.gif" alt=""/>*/}
-                {/*<img className='background-element background-status' src="/images/mint-status.png" alt="mint status"/>*/}
-                {/*<div className='background-element background-status'>*/}
-                {/*    <span className='title'>Mint start</span>*/}
-                {/*    <span className='status'>TBA</span>*/}
-                {/*</div>*/}
+                <img
+                    className='background-element background-statistic'
+                    src="/images/background-statistic-btc.png"
+                     alt=""
+                />
 
                 {currentPopup === 'mint' &&
                     <>

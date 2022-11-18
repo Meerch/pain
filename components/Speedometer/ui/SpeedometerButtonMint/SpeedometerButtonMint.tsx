@@ -32,7 +32,7 @@ const SpeedometerButtonMint = memo((props: SpeedometerButtonMintProps) => {
         // select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))
 
-    const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('mintPrice', {
+    const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('MINT_PRICE', {
         select: (data) => +formatEther(data)
     }))
 

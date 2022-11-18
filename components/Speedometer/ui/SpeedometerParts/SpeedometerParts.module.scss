@@ -132,6 +132,7 @@
     .partBorder {
         width: 50px;
         left: 3.5%;
+
         @media (min-width: $media-min-screen) {
             width: auto;
             left: 0;
