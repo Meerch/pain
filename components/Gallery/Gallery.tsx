@@ -1,35 +1,22 @@
 import {splitHalfPhotos} from "./utils";
 import styles from './Gallery.module.scss'
-import React, {useEffect, useRef, useState} from "react";
+import React, {memo, useEffect, useRef, useState} from "react";
 import classNames from "classnames"
 import {photos} from "./constants";
+import {useDetectDevice} from "../../hooks/useDetectDevice";
 
 
-export const Gallery = () => {
-    const [isDesktop, setIsDesktop] = useState(true)
-    const refMainBar = useRef<HTMLDivElement | null>(null)
-    const refMobileBar = useRef<HTMLDivElement | null>(null)
-
-
-    useEffect(() => {
-        if (window === undefined) {
-            return
-        }
-
-        if (window.screen.width < 1280) {
-            setIsDesktop(false)
-        }
-    }, [])
+const Gallery = memo(() => {
+    // const [isDesktop, setIsDesktop] = useState(true)
+    const {isDesktop, isMobile} = useDetectDevice()
 
     return (
         <div className={styles.gallery}>
             <div className={styles.wrapper}>
-                <div ref={refMainBar} className={styles.photosBar}>
+                <div className={styles.photosBar}>
                     {
                         (isDesktop ? photos : splitHalfPhotos(1)).map((photoUrl) => (
-                            <div key={photoUrl} className={classNames(styles.photoBar, {
-                                [styles.mobile]: !isDesktop
-                            })}>
+                            <div key={photoUrl} className={classNames(styles.photoBar)}>
                                 <img
                                     className={styles.image}
                                     src={photoUrl}
@@ -40,7 +27,7 @@ export const Gallery = () => {
                     }
                 </div>
 
-                <div ref={refMainBar} className={styles.photosBar}>
+                <div className={styles.photosBar}>
                     {
                         (isDesktop ? photos : splitHalfPhotos(1)).map((photoUrl) => (
                             <div key={photoUrl} className={classNames(styles.photoBar, {
@@ -59,9 +46,9 @@ export const Gallery = () => {
 
 
             {
-                !isDesktop &&
+                isMobile &&
                 <div className={styles.wrapper}>
-                    <div ref={refMobileBar} className={classNames(styles.photosBar, styles.mobilePhotosBar)}>
+                    <div className={classNames(styles.photosBar, styles.mobilePhotosBar)}>
                         {
                             splitHalfPhotos(2).map((photoUrl) => (
                                 <div key={photoUrl} className={classNames(styles.photoBar, styles.mobilePhotoBar)}>
@@ -74,7 +61,7 @@ export const Gallery = () => {
                             ))
                         }
                     </div>
-                    <div ref={refMobileBar} className={classNames(styles.photosBar, styles.mobilePhotosBar)}>
+                    <div className={classNames(styles.photosBar, styles.mobilePhotosBar)}>
                         {
                             splitHalfPhotos(2).map((photoUrl) => (
                                 <div key={photoUrl} className={classNames(styles.photoBar, styles.mobilePhotoBar)}>
@@ -91,4 +78,7 @@ export const Gallery = () => {
             }
         </div>
     );
-};
+})
+
+Gallery.displayName = 'Gallery'
+export default Gallery

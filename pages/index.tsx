@@ -2,7 +2,6 @@ import {DesktopWrapper} from "../components/Wrapper/DesktopWrapper";
 import {MobileWrapper} from "../components/Wrapper/MobileWrapper";
 import {Gallery} from "../components/Gallery";
 import {Footer} from "../components/Footer";
-import {Links} from "../components/Links";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useTypedDispatch} from "../hooks/useTypedDispatch";
 import {MobilePopupMint, DesktopPopupMint} from "../components/Popup/PopupMint";
