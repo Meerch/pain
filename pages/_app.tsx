@@ -65,6 +65,9 @@ function App({Component, pageProps}: AppProps) {
             <meta name="twitter:site" content={`@${title}`}/>
             <meta name="twitter:domain" content={url}/>
 
+            <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)"/>
+            <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"/>
+
             <script src={"https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"} defer/>
             <script src={"https://cdn.jsdelivr.net/npm/vanta/dist/vanta.waves.min.js"} defer/>
         </Head>
