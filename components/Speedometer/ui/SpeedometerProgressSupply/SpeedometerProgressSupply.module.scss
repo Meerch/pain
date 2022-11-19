@@ -1,5 +1,31 @@
 @import "styles/variables";
 
+.wrapperValue {
+    position: absolute;
+    transform-origin: 50% 98%;
+    width: 2px;
+    height: 210px;
+    top: -5%;
+    left: 49%;
+    background: none;
+    z-index: 1000;
+
+    @media (min-width: $media-min-screen) {
+        height: 320px;
+        top: 5%;
+        left: 44%;
+    }
+}
+
+.value {
+    font-size: 44px;
+    position: absolute;
+    top: 0;
+    //left: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .speedometerProgressSupply {
     position: absolute;
     width: 115%;
