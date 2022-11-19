@@ -21,6 +21,8 @@ export default function Home() {
     const dispatch = useTypedDispatch()
     const {isMobile, isDesktop} = useDetectDevice()
     const [isReady, setIsReady] = useState(false)
+    const [vantaEffect, setVantaEffect] = useState(null)
+    const myRef = useRef(null)
     const {play} = useCustomSound(soundClick, {
         volume: 0.3
     })
@@ -59,9 +61,14 @@ export default function Home() {
         return () => clearTimeout(timer)
     }, [])
 
-    const [vantaEffect, setVantaEffect] = useState(null)
-    const myRef = useRef(null)
+
+
     useEffect(() => {
+        if (isMobile) {
+            if (vantaEffect) vantaEffect.destroy()
+            return
+        }
+
         if (!vantaEffect) {
             setVantaEffect(FOG({
                 el: myRef.current,
@@ -81,7 +88,7 @@ export default function Home() {
         return () => {
             if (vantaEffect) vantaEffect.destroy()
         }
-    }, [vantaEffect])
+    }, [vantaEffect, isMobile])
 
     return (
         <div className='wrapper'>
