@@ -20,7 +20,7 @@ const SpeedometerProgressSupply = memo(() => {
             return clone
         })
     }
-    const mintedNft = 6666 - (supplies.length ? supplies.reduce((supply1, supply2) => supply1 + supply2) : 6666)
+    const mintedNft = 6666 - (supplies.length === 4 ? supplies.reduce((supply1, supply2) => supply1 + supply2) : 6666)
 
 
     useContractRead(generateContractPainSetting('availableSupply', {
