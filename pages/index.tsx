@@ -64,11 +64,6 @@ export default function Home() {
 
 
     useEffect(() => {
-        if (isMobile) {
-            if (vantaEffect) vantaEffect.destroy()
-            return
-        }
-
         if (!vantaEffect) {
             setVantaEffect(FOG({
                 el: myRef.current,
@@ -88,7 +83,7 @@ export default function Home() {
         return () => {
             if (vantaEffect) vantaEffect.destroy()
         }
-    }, [vantaEffect, isMobile])
+    }, [vantaEffect])
 
     return (
         <div className='wrapper'>
