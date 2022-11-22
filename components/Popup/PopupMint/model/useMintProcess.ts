@@ -69,10 +69,11 @@ export const useMintProcess = () => {
     const {isLoading: isLoadingMint, isSuccess: isSuccessMint, data: resultMint} = useWaitForTransaction({
         hash: dataMint?.hash
     })
-    const {data: idsAfterMint} = useTransaction({
-        // @ts-ignore
-        hash: resultMint?.transactionHash
-    })
+
+
+    useEffect(() => {
+        console.log('resultMint', resultMint)
+    }, [resultMint])
 
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
         args: currentRoundId && [currentRoundId, signature],
@@ -99,23 +100,25 @@ export const useMintProcess = () => {
     }
 
     useEffect(() => {
-        if (isSuccessMint || isSuccessFreeMint) {
-            dispatch(popupActions.setAmountMintedNfts(amount))
+        if ((!isSuccessMint && !isSuccessFreeMint) && !resultMint) {
+            return
+        }
+
+        const ids = []
+        resultMint.logs.forEach(log => {
+            const {topics} = log
+            if (topics[3] && topics[1] && parseInt(log.topics[1], 16) === 0) {
+                const parseId = parseInt(topics[3], 16)
+                ids.push(parseId)
+            }
+        })
+        console.log(ids)
+        if (ids) {
+            dispatch(popupActions.setAmountMintedNfts(ids))
             dispatch(popupActions.changeCurrentPopup('success'))
         }
     }, [isSuccessMint, isSuccessFreeMint])
 
-    useEffect(() => {
-        console.log('resultMint', resultMint)
-    }, [resultMint])
-
-    useEffect(() => {
-        console.log('resultFreeMint', resultFreeMint)
-    }, [resultFreeMint])
-
-    useEffect(() => {
-        console.log('idsAfterMint', idsAfterMint)
-    }, [idsAfterMint])
 
     const onClickButton = () => {
         if (isLoading || (error && !canFreeMint)) {

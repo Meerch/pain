@@ -5,12 +5,12 @@ export type CurrentPopup = 'mint' | 'success' | null
 
 export interface PopupState {
     currentPopup: CurrentPopup,
-    amountMintedNfts: number
+    amountMintedNfts: number[]
 }
 
 const initialState: PopupState = {
     currentPopup: null,
-    amountMintedNfts: 1
+    amountMintedNfts: []
 }
 
 export const popupSlice = createSlice({
@@ -20,7 +20,7 @@ export const popupSlice = createSlice({
         changeCurrentPopup: (state, action: PayloadAction<CurrentPopup>) => {
             state.currentPopup = action.payload
         },
-        setAmountMintedNfts: (state, action: PayloadAction<number>) => {
+        setAmountMintedNfts: (state, action: PayloadAction<number[]>) => {
             state.amountMintedNfts = action.payload
         }
     },
