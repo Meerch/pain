@@ -1,6 +1,13 @@
 import {useEffect, useState} from "react";
 import {useTypedDispatch} from "../../../../hooks/useTypedDispatch";
-import {useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
+import {
+    useAccount,
+    useContractRead,
+    useContractWrite,
+    usePrepareContractWrite,
+    useTransaction,
+    useWaitForTransaction
+} from "wagmi";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
 import {generateContractPainSetting} from "../../../../blockchain/utils";
@@ -33,11 +40,10 @@ export const useMintProcess = () => {
     }))
 
 
-    const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('mintPrice', {
-        onSuccess: data => console.log('canFreeMint', data),
+    const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('MINT_PRICE', {
+        onSuccess: data => console.log('price update', data),
         select: (data) => +formatEther(data)
     }))
-
 
     const {config: configMint} = usePrepareContractWrite(generateContractPainSetting('getMyPain', {
         args: currentRoundId && [currentRoundId, amount],
@@ -60,8 +66,12 @@ export const useMintProcess = () => {
     }))
 
     const {write: onMint, data: dataMint, isLoading: isLoadingWriteMint} = useContractWrite(configMint)
-    const {isLoading: isLoadingMint, isSuccess: isSuccessMint} = useWaitForTransaction({
+    const {isLoading: isLoadingMint, isSuccess: isSuccessMint, data: resultMint} = useWaitForTransaction({
         hash: dataMint?.hash
+    })
+    const {data: idsAfterMint} = useTransaction({
+        // @ts-ignore
+        hash: resultMint?.transactionHash
     })
 
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
@@ -70,7 +80,7 @@ export const useMintProcess = () => {
     }))
 
     const {write: onFreeMint, data: dataFreeMint, isLoading: isLoadingWriteFreeMint} = useContractWrite(configFreeMint)
-    const {isLoading: isLoadingFreeMint, isSuccess: isSuccessFreeMint} = useWaitForTransaction({
+    const {isLoading: isLoadingFreeMint, isSuccess: isSuccessFreeMint, data: resultFreeMint} = useWaitForTransaction({
         hash: dataFreeMint?.hash
     })
     const isLoading = isLoadingMintPrice || isLoadingCanFreeMint || isLoadingMint || isLoadingFreeMint || isLoadingWriteMint || isLoadingWriteFreeMint
@@ -94,6 +104,18 @@ export const useMintProcess = () => {
             dispatch(popupActions.changeCurrentPopup('success'))
         }
     }, [isSuccessMint, isSuccessFreeMint])
+
+    useEffect(() => {
+        console.log('resultMint', resultMint)
+    }, [resultMint])
+
+    useEffect(() => {
+        console.log('resultFreeMint', resultFreeMint)
+    }, [resultFreeMint])
+
+    useEffect(() => {
+        console.log('idsAfterMint', idsAfterMint)
+    }, [idsAfterMint])
 
     const onClickButton = () => {
         if (isLoading || (error && !canFreeMint)) {

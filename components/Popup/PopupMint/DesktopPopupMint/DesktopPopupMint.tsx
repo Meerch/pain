@@ -52,11 +52,15 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                             <span className={styles.amountValue}>{amount}</span>
                             <div onClick={() => changeAmount(1)} className={styles.plus}/>
                         </div>
-                        <span className={styles.total}>
-                            in total: {mintPrice ? +mintPrice * amount : 'Loading...'} ETH
-                        </span>
+                        {
+                            !canFreeMint &&
+                            <span className={styles.total}>
+                                in total: {mintPrice ? +mintPrice * amount : 'Loading...'} ETH
+                            </span>
+                        }
                         <button onClick={onClickButton} className={classNames(styles.button, {
-                            [styles.inactive]: isLoading || (error && !canFreeMint)
+                            [styles.inactive]: isLoading || (error && !canFreeMint),
+                            [styles.maxBottom]: canFreeMint
                         })}>
                             {
                                 (error && !canFreeMint)

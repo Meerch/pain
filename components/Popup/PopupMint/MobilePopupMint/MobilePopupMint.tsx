@@ -58,9 +58,12 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                 <span className={styles.amountValue}>{amount}</span>
                 <div onClick={() => changeAmount(1)} className={styles.plus}/>
             </div>
-            <span className={styles.total}>
-                in total: {mintPrice ? +mintPrice * amount : 'Loading...'} ETH
-            </span>
+            {
+                !canFreeMint &&
+                <span className={styles.total}>
+                    in total: {mintPrice ? +mintPrice * amount : 'Loading...'} ETH
+                </span>
+            }
             <span className={styles.available}>available: {+changePrice > -15 ? 5 : 3}</span>
             {isLoading && <span className={styles.loading}>Loading...</span>}
             <button onClick={onClickButton} className={classNames(styles.button, {

@@ -161,6 +161,9 @@
             background-color: #FF0006;
         }
 
+        &.maxBottom {
+            margin-top: auto;
+        }
 
         &.inactive {
             cursor: default;
