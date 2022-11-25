@@ -22,12 +22,6 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
     const amountMintedNfts = useSelector((state: RootState) => state.popup.amountMintedNfts)
     const [imagesMintedNfts, setImagesMintedNfts] = useState([])
     const refTimer = useRef() as MutableRef<NodeJS.Timeout>
-    // const imagesMintedNfts = [
-    //     "https://ipfs.io/ipfs/QmZE48sWLfXEg94QMkpj7BbQbbSJ3qyNvKwQkCpBsCrp9U",
-    //     "https://ipfs.io/ipfs/Qme4YFeL2AAoNwZuiak72Ypb7tVKWc5dAEMad9VBmFpBEM",
-    //     "https://ipfs.io/ipfs/QmXMSkTEamswSoqM2Nh6fbPVqRQkGfYuRq957epDtx3cTZ"
-    // ]
-
     const {play, stop} = useCustomSound(soundConnect)
 
     const onClickButton = () => {
@@ -43,7 +37,7 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
             console.log('amountMintedNfts', amountMintedNfts)
             console.log('images', images)
 
-            if (Array.isArray(images)) {
+            if (images && Array.isArray(images)) {
                 setImagesMintedNfts(images)
             } else {
                 refTimer.current = setTimeout(() => {
@@ -98,8 +92,8 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
 
             <div onClick={onClose} className={styles.close}/>
         </PopupLayout>
-    );
-};
+    )
+}
 
 export default PopupSuccess
 
