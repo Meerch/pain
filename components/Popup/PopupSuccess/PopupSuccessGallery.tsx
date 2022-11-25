@@ -80,4 +80,6 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
     )
 })
 
+PopupSuccessGallery.displayName = 'PopupSuccessGallery'
+
 export default PopupSuccessGallery;
