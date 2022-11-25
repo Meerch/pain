@@ -7,6 +7,26 @@
 // font-family: 'Annie Use Your Telescope', cursive;
 // font-family: 'Titan One', cursive;
 
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 40px!important;
+  height: 23px!important;
+
+  &:after {
+    display: none;
+  }
+}
+
+.swiper-button-prev {
+  transform: rotate(180deg);
+  left: -80px!important;
+}
+
+.swiper-button-next {
+  right: -80px!important;
+}
+
 html,
 body {
   padding: 0;

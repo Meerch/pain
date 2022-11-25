@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import {formatEther} from "../../../../helpers/utils";
 import {useHover} from "../../../../hooks/useHover";
 import {svgButton, svgButtonWithoutShadow} from "./svgButton";
+import {useConnectModal} from "@rainbow-me/rainbowkit";
 
 interface SpeedometerButtonMintProps {
     changePrice?: number
@@ -21,6 +22,7 @@ const SpeedometerButtonMint = memo((props: SpeedometerButtonMintProps) => {
     const dispatch = useTypedDispatch()
     const signature = useSelector((state: RootState) => state.speedometer?.signature)
     const {address} = useAccount()
+    const {openConnectModal} = useConnectModal();
     const [isHover, bindHover] = useHover()
 
     const {
@@ -50,9 +52,13 @@ const SpeedometerButtonMint = memo((props: SpeedometerButtonMintProps) => {
     }, [address])
 
     const openModalMint = () => {
-        if (!changePrice || changePrice >= 0 || !address) {
+        if (!changePrice || changePrice >= 0) {
             return
         }
+         if (!address) {
+             openConnectModal()
+             return
+         }
         dispatch(popupActions.changeCurrentPopup('mint'))
     }
 

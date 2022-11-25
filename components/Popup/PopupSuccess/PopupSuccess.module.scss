@@ -4,6 +4,7 @@
     width: 360px;
     height: auto;
     padding: 40px;
+    position: relative;
     background-color: #000000;
     border-radius: 20px;
     top: 50%;
@@ -12,17 +13,27 @@
     box-shadow: 0 0 100px rgba(255, 0, 0, 0.5), 0 0 200px rgba(255, 0, 0, 0.5);
 }
 
-.logo {
-    margin-top: 24px;
-    width: 220px;
-    height: 220px;
+//.logo {
+//    margin-top: 24px;
+//    width: 220px;
+//    height: 220px;
+//}
+
+.loadingGallery {
+    margin-top: 30px;
+    font-size: 25px;
+    width: 228px;
+    height: 232px;
+    border: 2px solid #B70E03;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
-    margin-top: 30px;
+    //margin-top: 30px;
     font-size: 22px;
     color: #FF4141;
-
 }
 
 .description {
@@ -37,8 +48,8 @@
 
 .button {
     font-family: 'Annie Use Your Telescope', cursive;
-    border: 2px solid #1CB703;
-    color: #1CB703;
+    border: 2px solid #B70E03;
+    color: #FF3D00;
     display: flex;
     margin-top: 30px;
     align-items: center;
@@ -52,7 +63,7 @@
     cursor: pointer;
 
     &:hover {
-        background: #1CB703;
+        background: #B70E03;
         color: #000;
     }
 }
@@ -95,3 +106,4 @@
         transform: translate(-50%, -50%) rotate(135deg);
     }
 }
+

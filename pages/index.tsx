@@ -15,8 +15,7 @@ import FOG from 'vanta/dist/vanta.fog.min'
 import soundClick from "../public/sounds/click.mp3";
 import {useCustomSound} from "../hooks/useCustomSound";
 import {volumeSoundsActions} from "../components/StateSound";
-import {useTransaction, useWaitForTransaction} from "wagmi";
-import {formatEther} from "../helpers/utils";
+
 
 export default function Home() {
     const currentPopup = useTypedSelector(state => state.popup.currentPopup)
@@ -89,6 +88,7 @@ export default function Home() {
 
     return (
         <div className='wrapper'>
+            {/*<img src="https://ipfs.io/ipfs/Qme4YFeL2AAoNwZuiak72Ypb7tVKWc5dAEMad9VBmFpBEM" alt="image nft"/>*/}
             {
                 !isReady &&
                 <div className='loading'>
