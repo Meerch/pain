@@ -17,7 +17,6 @@ export const Logo = () => {
 
 
     useEffect(() => {
-        console.log('isHover', isHover)
         if (isHover) {
             play()
         } else {

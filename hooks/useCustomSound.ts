@@ -8,7 +8,6 @@ interface SoundSettings {
 
 export const useCustomSound = (srcSound: string | string[], {volume}: SoundSettings = {}) => {
     const volumeSound = useSelector((state: RootState) => state.volumeSounds.volumeSounds)
-    console.log(volumeSound === 0 ? volumeSound : (volume ?? 1))
     const [play, {stop}] = useSound(srcSound, {
         volume: +volumeSound === 0 ? +volumeSound : (volume ?? 1)
     })

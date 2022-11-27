@@ -35,25 +35,18 @@ export const useMintProcess = () => {
         isLoading: isLoadingCanFreeMint
     } = useContractRead(generateContractPainSetting('canFreeMint', {
         args: signature && address && [signature, address],
-        onSuccess: data => console.log('canFreeMint', data)
-        // select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))
 
 
     const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('MINT_PRICE', {
-        onSuccess: data => console.log('price update', data),
         select: (data) => +formatEther(data)
     }))
 
     const {config: configMint} = usePrepareContractWrite(generateContractPainSetting('getMyPain', {
         args: currentRoundId && [currentRoundId, amount],
         onError: error => {
-            console.log('price', mintPrice)
-            console.log('amount', amount)
-            console.log('sum', +mintPrice * amount)
             if (String(error).includes('INSUFFICIENT_FUNDS')) {
                 setError('Insufficient funds')
-                console.log('set error')
             } else {
                 setError(null)
             }
@@ -70,14 +63,8 @@ export const useMintProcess = () => {
         hash: dataMint?.hash
     })
 
-
-    useEffect(() => {
-        console.log('resultMint', resultMint)
-    }, [resultMint])
-
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
         args: currentRoundId && [currentRoundId, signature],
-        onSuccess: data => console.log('mint ready', data)
     }))
 
     const {write: onFreeMint, data: dataFreeMint, isLoading: isLoadingWriteFreeMint} = useContractWrite(configFreeMint)
@@ -112,7 +99,7 @@ export const useMintProcess = () => {
                 ids.push(parseId)
             }
         })
-        console.log(ids)
+
         if (ids) {
             dispatch(popupActions.setAmountMintedNfts(ids))
             dispatch(popupActions.changeCurrentPopup('success'))

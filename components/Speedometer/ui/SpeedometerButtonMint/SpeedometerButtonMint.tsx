@@ -30,22 +30,13 @@ const SpeedometerButtonMint = memo((props: SpeedometerButtonMintProps) => {
         isLoading: isLoadingCanFreeMint
     } = useContractRead(generateContractPainSetting('canFreeMint', {
         args: signature && address && [signature, address],
-        onSuccess: data => console.log('canFreeMint', data)
-        // select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))
 
     const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('MINT_PRICE', {
         select: (data) => +formatEther(data)
     }))
 
-    // const {data: changePrice, refetch}: Pick<{ data: number }, any> = useContractRead(generateContractPainSetting('canFreeMint', {
-    //     args: signature && signature,
-    //     onSuccess: data => console.log('canMint', data)
-    //     // select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
-    // }))
-
     useEffect(() => {
-        console.log(address)
         if (address) {
             dispatch(fetchWhitelistSignature(address))
         }
@@ -72,7 +63,6 @@ const SpeedometerButtonMint = memo((props: SpeedometerButtonMintProps) => {
                         ? svgButtonWithoutShadow
                         : svgButton
                 }
-
 
                 <span className={styles.text}>
                     {

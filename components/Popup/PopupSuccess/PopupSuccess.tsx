@@ -22,46 +22,19 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
     const dispatch = useTypedDispatch()
     const amountMintedNfts = useSelector((state: RootState) => state.popup.amountMintedNfts)
     const [imagesMintedNfts, setImagesMintedNfts] = useState([])
-    const refTimer = useRef() as MutableRef<NodeJS.Timeout>
     const {play, stop} = useCustomSound(soundConnect)
 
     const onClickButton = () => {
         dispatch(popupActions.changeCurrentPopup(null))
     }
 
-    const fetchImagesById = async () => {
-        try {
-            if (amountMintedNfts?.length === 0) {
-                return
-            }
-            const {data: images} = await axios.get(`${urlApi}/get-images?tokenId=${amountMintedNfts[0]}&numberOfTokens=${amountMintedNfts.length}`)
-            console.log('amountMintedNfts', amountMintedNfts)
-            console.log('images', images)
-
-            if (images && Array.isArray(images)) {
-                setImagesMintedNfts(images)
-            } else {
-                refTimer.current = setTimeout(() => {
-                    fetchImagesById()
-                }, 7500)
-            }
-        } catch {
-            refTimer.current = setTimeout(() => {
-                fetchImagesById()
-            }, 7500)
-        }
-    }
-
     useEffect(() => {
-        // void fetchImagesById()
         if (amountMintedNfts?.length === 0) {
             return
         }
+
         const timer = setInterval(async () => {
-            // const response = await axios.get(`${urlApi}/get-images?tokenId=${amountMintedNfts[0]}&numberOfTokens=${amountMintedNfts.length}`)
             const images = await getImagesMintedNfts(amountMintedNfts[0], amountMintedNfts.length)
-            console.log('amountMintedNfts', amountMintedNfts)
-            console.log('images', images)
 
             if (images && Array.isArray(images)) {
                 setImagesMintedNfts(images)
