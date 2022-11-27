@@ -91,15 +91,11 @@ export const useMintProcess = () => {
     }
 
     useEffect(() => {
-        if ((!isSuccessMint && !isSuccessFreeMint) && !resultMint) {
+        if (!canFreeMint && (!resultMint || !isSuccessMint)) {
             return
         }
 
-        if (!resultMint || !isSuccessMint) {
-            return
-        }
-
-        if (!resultFreeMint || !isSuccessFreeMint) {
+        if (canFreeMint && (!resultFreeMint || !isSuccessFreeMint)) {
             return
         }
 
