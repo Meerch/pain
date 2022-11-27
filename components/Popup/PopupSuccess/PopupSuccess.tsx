@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styles from './PopupSuccess.module.scss'
 import PopupLayout from '../PopupLayout/PopupLayout';
 import {useTypedDispatch} from "../../../hooks/useTypedDispatch";
@@ -9,9 +9,6 @@ import {useSelector} from 'react-redux';
 import soundConnect from "../../../public/sounds/success-mint.mp3";
 import {useCustomSound} from "../../../hooks/useCustomSound";
 import PopupSuccessGallery from "./PopupSuccessGallery";
-import axios from 'axios';
-import {urlApi} from "../../../const/urlApi";
-import {MutableRef} from "preact/hooks";
 import {getImagesMintedNfts} from "../../../api/api";
 
 interface PopupLayoutProps {
@@ -58,7 +55,6 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
     return (
         <PopupLayout onClose={onClose} className={styles.popup}>
             <div className={styles.title}>Congratulations!</div>
-            {/*<img className={styles.logo} src="/images/logo-2.jpg" alt="PAIN"/>*/}
             {
                 imagesMintedNfts.length > 0
                     ? <PopupSuccessGallery

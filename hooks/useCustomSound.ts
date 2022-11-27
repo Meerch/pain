@@ -9,8 +9,11 @@ interface SoundSettings {
 export const useCustomSound = (srcSound: string | string[], {volume}: SoundSettings = {}) => {
     const volumeSound = useSelector((state: RootState) => state.volumeSounds.volumeSounds)
     const [play, {stop}] = useSound(srcSound, {
-        volume: +volumeSound === 0 ? +volumeSound : (volume ?? 1)
+        volume: +volumeSound === 0 ? 0 : (volume ?? 1)
     })
 
-    return {play, stop}
+    return {
+        play,
+        stop
+    }
 }

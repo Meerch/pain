@@ -6,10 +6,9 @@ import {Provider} from 'react-redux';
 import {createWrapper} from 'next-redux-wrapper';
 import {store} from '../store/store';
 import '@rainbow-me/rainbowkit/styles.css';
-import {getDefaultWallets, RainbowKitProvider,} from '@rainbow-me/rainbowkit';
-import {Chain, chain, configureChains, createClient, WagmiConfig,} from 'wagmi';
-import {jsonRpcProvider} from 'wagmi/providers/jsonRpc';
-import {chains, wagmiClient } from '../blockchain/config';
+import {RainbowKitProvider,} from '@rainbow-me/rainbowkit';
+import {chain, WagmiConfig,} from 'wagmi';
+import {chains, wagmiClient} from '../blockchain/config';
 
 const title = 'Pain'
 const description = '6,666 AI-generated faces of pAIn. You can only mint when the ETH price is down.'
@@ -33,6 +32,8 @@ function App({Component, pageProps}: AppProps) {
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
             <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png"/>
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
+            {/*<link rel="icon" href="/favicon/favicon.ico" type="image/x-icon"/>*/}
+            <link rel="shortcut icon" href="/favicon/favicon.ico" />
             <meta name="msapplication-TileColor" content="#ffffff"/>
             <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
             <meta name="theme-color" content="#ffffff"/>

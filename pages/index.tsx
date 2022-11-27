@@ -55,14 +55,12 @@ export default function Home() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsReady(true)
+            dispatch(volumeSoundsActions.initState())
         }, 5000)
 
-        dispatch(volumeSoundsActions.initState())
 
         return () => clearTimeout(timer)
     }, [])
-
-
 
     useEffect(() => {
         if (!vantaEffect) {
@@ -82,13 +80,14 @@ export default function Home() {
             }))
         }
         return () => {
-            if (vantaEffect) vantaEffect.destroy()
+            if (vantaEffect) {
+                vantaEffect?.destroy()
+            }
         }
     }, [vantaEffect])
 
     return (
         <div className='wrapper'>
-            {/*<img src="https://ipfs.io/ipfs/Qme4YFeL2AAoNwZuiak72Ypb7tVKWc5dAEMad9VBmFpBEM" alt="image nft"/>*/}
             {
                 !isReady &&
                 <div className='loading'>
