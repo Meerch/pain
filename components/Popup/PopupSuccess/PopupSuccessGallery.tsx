@@ -53,13 +53,7 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
                 {
                     mintedImages.map((mintedImage) => (
                         <SwiperSlide key={mintedImage} className={styles.nftImage}>
-                            <Image
-                                placeholder='blur'
-                                blurDataURL='https://krot.info/uploads/posts/2020-01/1579314246_20-46.jpg'
-                                layout='fill'
-                                src={mintedImage}
-                                alt={mintedImage}
-                            />
+                            <img src={mintedImage} alt='image' />
                         </SwiperSlide>
                     ))
                 }

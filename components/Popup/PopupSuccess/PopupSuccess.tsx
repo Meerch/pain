@@ -12,6 +12,7 @@ import PopupSuccessGallery from "./PopupSuccessGallery";
 import axios from 'axios';
 import {urlApi} from "../../../const/urlApi";
 import {MutableRef} from "preact/hooks";
+import {getImagesMintedNfts} from "../../../api/api";
 
 interface PopupLayoutProps {
     onClose: () => void
@@ -28,7 +29,7 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
         dispatch(popupActions.changeCurrentPopup(null))
     }
 
-    const fetchImagesById = useCallback(async () => {
+    const fetchImagesById = async () => {
         try {
             if (amountMintedNfts?.length === 0) {
                 return
@@ -49,17 +50,29 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
                 fetchImagesById()
             }, 7500)
         }
-    }, [])
+    }
 
     useEffect(() => {
-        void fetchImagesById()
+        // void fetchImagesById()
+        if (amountMintedNfts?.length === 0) {
+            return
+        }
+        const timer = setInterval(async () => {
+            // const response = await axios.get(`${urlApi}/get-images?tokenId=${amountMintedNfts[0]}&numberOfTokens=${amountMintedNfts.length}`)
+            const images = await getImagesMintedNfts(amountMintedNfts[0], amountMintedNfts.length)
+            console.log('amountMintedNfts', amountMintedNfts)
+            console.log('images', images)
+
+            if (images && Array.isArray(images)) {
+                setImagesMintedNfts(images)
+                clearInterval(timer)
+            }
+        }, 8000)
 
         return () => {
-            if (refTimer.current) {
-                clearTimeout(refTimer.current)
-            }
+            clearTimeout(timer)
         }
-    }, [])
+    }, [amountMintedNfts])
 
     useEffect(() => {
         play()
