@@ -25,16 +25,32 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
         dispatch(popupActions.changeCurrentPopup(null))
     }
 
+    const fetchImagesMintedNfts = async () => {
+        const images = await getImagesMintedNfts(amountMintedNfts[0], amountMintedNfts.length)
+
+        if (images && Array.isArray(images)) {
+            setImagesMintedNfts(images)
+        }
+
+        return images
+    }
+
     useEffect(() => {
         if (amountMintedNfts?.length === 0) {
             return
         }
 
-        const timer = setInterval(async () => {
-            const images = await getImagesMintedNfts(amountMintedNfts[0], amountMintedNfts.length)
+        void fetchImagesMintedNfts()
 
-            if (images && Array.isArray(images)) {
-                setImagesMintedNfts(images)
+        const timer = setInterval(async () => {
+            if (imagesMintedNfts.length > 0) {
+                clearInterval(timer)
+                return
+            }
+
+            const images = await fetchImagesMintedNfts()
+
+            if (images) {
                 clearInterval(timer)
             }
         }, 8000)

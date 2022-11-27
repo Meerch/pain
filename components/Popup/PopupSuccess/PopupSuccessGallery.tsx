@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { memo, useState } from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react'
 import styles from './PopupSuccessGallery.module.scss'
-import Image from 'next/image'
 import SwiperCore, {Navigation} from 'swiper';
 
 interface PopupSuccessGalleryProps {
@@ -21,7 +20,7 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
     return (
         <div className={classNames(styles.galleryWrapper, className)}>
             {
-                mintedImages.length > 1 &&
+                mintedImages?.length > 1 &&
                 <svg
                     className={classNames(styles.arrow, styles.prev, {
                         [styles.inactive]: progressGallery === 0
@@ -51,8 +50,8 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
                 }}
             >
                 {
-                    mintedImages.map((mintedImage) => (
-                        <SwiperSlide key={mintedImage} className={styles.nftImage}>
+                    mintedImages.map((mintedImage, index) => (
+                        <SwiperSlide key={`${mintedImage}${index}`} className={styles.nftImage}>
                             <img src={mintedImage} alt='image' />
                         </SwiperSlide>
                     ))
@@ -60,7 +59,7 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
             </Swiper>
 
             {
-                mintedImages.length > 1 &&
+                mintedImages?.length > 1 &&
                 <svg
                     className={classNames(styles.arrow, styles.next, {
                         [styles.inactive]: progressGallery === 1
