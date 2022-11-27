@@ -5,7 +5,6 @@ import {
     useContractRead,
     useContractWrite,
     usePrepareContractWrite,
-    useTransaction,
     useWaitForTransaction
 } from "wagmi";
 import {useSelector} from "react-redux";
@@ -71,7 +70,12 @@ export const useMintProcess = () => {
     const {isLoading: isLoadingFreeMint, isSuccess: isSuccessFreeMint, data: resultFreeMint} = useWaitForTransaction({
         hash: dataFreeMint?.hash
     })
-    const isLoading = isLoadingMintPrice || isLoadingCanFreeMint || isLoadingMint || isLoadingFreeMint || isLoadingWriteMint || isLoadingWriteFreeMint
+    const isLoading = isLoadingMintPrice
+        || isLoadingCanFreeMint
+        || isLoadingMint
+        || isLoadingFreeMint
+        || isLoadingWriteMint
+        || isLoadingWriteFreeMint
 
 
     const changeAmount = (value: number) => {
@@ -91,8 +95,16 @@ export const useMintProcess = () => {
             return
         }
 
+        if (!resultMint || !isSuccessMint) {
+            return
+        }
+
+        if (!resultFreeMint || !isSuccessFreeMint) {
+            return
+        }
+
         const ids = []
-        resultMint.logs.forEach(log => {
+        resultMint?.logs?.forEach(log => {
             const {topics} = log
             if (topics[3] && topics[1] && parseInt(log.topics[1], 16) === 0) {
                 const parseId = parseInt(topics[3], 16)
@@ -104,7 +116,7 @@ export const useMintProcess = () => {
             dispatch(popupActions.setAmountMintedNfts(ids))
             dispatch(popupActions.changeCurrentPopup('success'))
         }
-    }, [isSuccessMint, isSuccessFreeMint])
+    }, [isSuccessMint, isSuccessFreeMint, resultMint, resultFreeMint])
 
 
     const onClickButton = () => {
