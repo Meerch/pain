@@ -37,27 +37,6 @@ const Speedometer = memo(() => {
         setProgress(changePrice)
     }, [changePrice])
 
-    // useEffect(() => {
-    //     if (!changePrice) {
-    //         return
-    //     }
-    //     const timer = setInterval(() => {
-    //         setProgress(prev => {
-    //             const isStopUpdateProgress = changePrice >= 0
-    //                 ? prev >= changePrice
-    //                 : prev <= changePrice
-    //             if (isStopUpdateProgress) {
-    //                 clearInterval(timer)
-    //                 return prev
-    //             }
-    //             const additionalInterval = +(changePrice / 50).toFixed(2)
-    //             return +(prev + additionalInterval).toFixed(2)
-    //         })
-    //     }, 100)
-    //
-    //     return () => clearInterval(timer)
-    // }, [changePrice])
-
     return (
         <div className={styles.speedometer}>
             <SpeedometerParts

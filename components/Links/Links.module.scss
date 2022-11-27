@@ -1,6 +1,5 @@
 @import "styles/variables";
 
-
 .links {
   display: flex;
   justify-content: center;
@@ -11,7 +10,7 @@
 
   @media (min-width: $media-min-screen) {
     flex-flow: row nowrap;
-    margin-top: -60px;
+    margin-top: -100px;
     justify-content: left;
   }
 }
@@ -74,4 +73,3 @@
     margin-left: 20px;
   }
 }
-

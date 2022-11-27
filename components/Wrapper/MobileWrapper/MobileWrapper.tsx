@@ -3,8 +3,8 @@ import {Logo} from "../../Logo";
 import {Description} from "../../Description";
 import {InfoPanels} from "../../InfoPanels";
 import {Header} from "../../Header";
-import {Speedometer} from "../../Speedometer";
 import {Links} from "../../Links";
+import NewSpeedometer from "../../NewSpeedometer/NewSpeedometer";
 
 export const MobileWrapper = () => {
 
@@ -13,7 +13,7 @@ export const MobileWrapper = () => {
             <Header />
             <Logo />
             <Description />
-            <Speedometer />
+            <NewSpeedometer />
             <Links/>
             <InfoPanels />
         </div>

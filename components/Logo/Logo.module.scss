@@ -39,6 +39,7 @@
       font-size: 28px;
       color: #FF0000;
       margin: 4px;
+      text-shadow: stroke2(3, black);
     }
   }
 }
@@ -82,7 +83,7 @@
 
     @media (min-width: $media-min-screen) {
       color: #FF1F00;
-      @include stroke(#000, 1px);
+      text-shadow: stroke2(4, black);
     }
   }
 }

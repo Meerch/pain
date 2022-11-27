@@ -15,7 +15,7 @@
   }
 
   @media (min-width: $media-min-screen) {
-    margin-top: 80px;
+    margin-top: 120px;
   }
 }
 
@@ -48,7 +48,6 @@
     transform: translate3d(0, 0, 0);
   }
   100% {
-    //transform: translate3d($negativeValueWidthGallery, 0, 0);
     transform: translate3d(-100%, 0, 0);
   }
 }
@@ -96,9 +95,4 @@
 .mobilePhotosBar {
   animation: marquee 70s linear infinite reverse!important;
   margin-top: 40px;
-}
-
-
-.mobilePhotoBar {
-
 }

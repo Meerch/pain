@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap');
 @import "variables";
 
 // font-family: 'Work Sans', sans-serif;
 // font-family: 'Annie Use Your Telescope', cursive;
 // font-family: 'Titan One', cursive;
-
+// font-family: 'Trade Winds', cursive;
 
 .swiper-button-next,
 .swiper-button-prev {
@@ -55,7 +56,6 @@ body {
   background: black;
   display: flex;
   align-items: center;
-  //justify-content: center;
   position: fixed;
   z-index: 10000;
   color: white;
@@ -97,7 +97,6 @@ body {
 .content-app {
   background: #000;
   width: 100%;
-  //min-height: 300vh;
   height: 100%;
   display: flex;
   flex-flow: column;
@@ -107,16 +106,12 @@ body {
 
   canvas {
     z-index: -1!important;
-    height: 2500px!important;
+    height: 2600px!important;
 
     @media (min-width: $media-min-screen) {
       height: 1054px!important;
     }
   }
-
-  //& * {
-  //  z-index: 100;
-  //}
 
   &:after,
   &:before {
@@ -126,7 +121,6 @@ body {
     left: 0;
     top: 0;
     width: 100%;
-    //height: 734px;
     height: 734px;
   }
 
@@ -196,8 +190,6 @@ body {
     }
   }
 }
-
-
 
 *,
 *:before,

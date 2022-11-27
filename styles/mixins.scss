@@ -1,11 +1,21 @@
 @mixin stroke($color: #000, $size: 1px) {
-    text-shadow:
-            -#{$size} -#{$size} 0 $color,
-            0        -#{$size} 0 $color,
-            #{$size} -#{$size} 0 $color,
-            #{$size}  0        0 $color,
-            #{$size}  #{$size} 0 $color,
-            0         #{$size} 0 $color,
-            -#{$size}  #{$size} 0 $color,
-            -#{$size}  0        0 $color;
+    text-shadow: -#{$size} -#{$size} 0 $color,
+    0        -#{$size} 0 $color,
+    #{$size} -#{$size} 0 $color,
+    #{$size}  0 0 $color,
+    #{$size}  #{$size} 0 $color,
+    0         #{$size} 0 $color,
+    -#{$size}  #{$size} 0 $color,
+    -#{$size} 0 0 $color;
+}
+
+@function stroke2($stroke, $color) {
+    $shadow: ();
+    $from: $stroke*-1;
+    @for $i from $from through $stroke {
+        @for $j from $from through $stroke {
+            $shadow: append($shadow, $i*1px $j*1px 0 $color, comma);
+        }
+    }
+    @return $shadow;
 }
