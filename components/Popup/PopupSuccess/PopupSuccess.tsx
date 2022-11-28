@@ -10,6 +10,8 @@ import soundConnect from "../../../public/sounds/success-mint.mp3";
 import {useCustomSound} from "../../../hooks/useCustomSound";
 import PopupSuccessGallery from "./PopupSuccessGallery";
 import {getImagesMintedNfts} from "../../../api/api";
+import {textsForPopupSuccess} from "./const";
+import {getRandomInt} from "../../../helpers/utils";
 
 interface PopupLayoutProps {
     onClose: () => void
@@ -68,9 +70,15 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
         }
     }, [play])
 
+    const getRandomText = () => {
+        const max = textsForPopupSuccess.length
+        const index = getRandomInt(0, max)
+        return textsForPopupSuccess[index]
+    }
+
     return (
         <PopupLayout onClose={onClose} className={styles.popup}>
-            <div className={styles.title}>Congratulations!</div>
+            <div className={styles.title}>AAAAAAAAAAAARGH!</div>
             {
                 imagesMintedNfts.length > 0
                     ? <PopupSuccessGallery
@@ -80,12 +88,12 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
                     : <span className={styles.loadingGallery}>Loading NFTs...</span>
             }
             <div className={styles.description}>
-                You have succesfully purchased <span className={styles.mark}>
+                You’ve got <span className={styles.mark}>
                 {amountMintedNfts.length}
-                </span> PAIN NFTs!
+                </span> dose of pAIn. {getRandomText()}
             </div>
             <button onClick={onClickButton} className={styles.button}>
-                Cool
+                Ouch!
             </button>
 
             <div onClick={onClose} className={styles.close}/>

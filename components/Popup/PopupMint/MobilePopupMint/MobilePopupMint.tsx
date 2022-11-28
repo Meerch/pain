@@ -3,6 +3,7 @@ import styles from './MobilePopupMint.module.scss'
 import PopupLayout from '../../PopupLayout/PopupLayout';
 import classNames from "classnames";
 import {useMintProcess} from "../model/useMintProcess";
+import {description, textButtonMint, title} from "../model/const";
 
 interface PopupLayoutProps {
     onClose: () => void
@@ -28,8 +29,10 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
             <div className={styles.wrapperClose}>
                 <div onClick={onClose} className={styles.close}/>
             </div>
-            <span className={styles.title}>Mint your PAIN</span>
-            <span className={styles.description}>It’s live! You are minting “Excruciating PAIN” bla bla bla</span>
+            <span className={styles.title}>{title}</span>
+            <span className={styles.description}>
+                {description}
+            </span>
 
             <div className={styles.preview}>
                 <img className={styles.logo} src="/images/logo-2.jpg" alt="PAIN"/>
@@ -37,7 +40,7 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                     <div className={styles.edition}>
                         Edition of 6666
                     </div>
-                    <span className={styles.price}>{mintPrice ? mintPrice : 'Loading...'} eth</span>
+                    <span className={styles.price}>Price: {mintPrice ? mintPrice : 'Loading...'} eth</span>
                 </div>
 
                 <div className={styles.infoPrice}>
@@ -72,7 +75,8 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                 {
                     error
                         ? error
-                        : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
+                        // : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
+                        : textButtonMint
                 }
             </button>
         </PopupLayout>

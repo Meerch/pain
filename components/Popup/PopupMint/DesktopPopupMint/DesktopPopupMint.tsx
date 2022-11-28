@@ -3,6 +3,7 @@ import styles from './DesktopPopupMint.module.scss'
 import PopupLayout from '../../PopupLayout/PopupLayout';
 import classNames from "classnames";
 import {useMintProcess} from '../model/useMintProcess';
+import {description, textButtonMint, title} from '../model/const';
 
 interface PopupLayoutProps {
     onClose: () => void
@@ -30,16 +31,17 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                     Edition of 6666
                 </div>
                 <span className={styles.price}>
-                    {isLoadingMintPrice ? 'Loading' : `${mintPrice} eth`}
+                    {isLoadingMintPrice ? 'Loading' : `Price: ${mintPrice} eth`}
                 </span>
             </div>
             {
                 isLoading
                     ? <div className={styles.loadingBlock}>Loading...</div>
                     : <div className={styles.mint}>
-                        <span className={styles.title}>Mint your PAIN</span>
-                        <span
-                            className={styles.description}>It’s live! You are minting “Excruciating PAIN” bla bla bla</span>
+                        <span className={styles.title}>{title}</span>
+                        <span className={styles.description}>
+                            {description}
+                        </span>
                         <span className={styles.price}>
                             Current ETH price: ${stats?.eth ? stats?.eth?.toFixed(0) : "Loading..."}
                         </span>
@@ -65,7 +67,8 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                             {
                                 (error && !canFreeMint)
                                     ? error
-                                    : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
+                                    // : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
+                                    : textButtonMint
                             }
                         </button>
                     </div>
