@@ -21,7 +21,7 @@ const SpeedometerInfo = memo((props: SpeedometerInfoProps) => {
             setStatus('mild pain')
         } else if (changePrice >= 0) {
             // setStatus('')
-            setStatus('excruciating pain')
+            setStatus('')
         }
     }, [changePrice])
 
@@ -32,15 +32,15 @@ const SpeedometerInfo = memo((props: SpeedometerInfoProps) => {
             <div className={styles.infoTime}>
                 <span className={styles.text}>24h change:</span>
                 <span className={styles.percent}>
-                        {changePrice ? `${changePrice} %` : 'Loading...'}
-                    </span>
+                    {changePrice ? `${changePrice} %` : 'Loading...'}
+                </span>
             </div>
 
             <span className={styles.price}>
-                    eth price: <span className={styles.mark}>
-                    {ethPrice ? `$${ethPrice.toFixed(0)}` : 'Loading...'}
-                    </span>
+                eth price: <span className={styles.mark}>
+                {ethPrice ? `$${ethPrice.toFixed(0)}` : 'Loading...'}
                 </span>
+            </span>
         </div>
     )
 })

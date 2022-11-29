@@ -56,7 +56,7 @@ const NewButtonSpeedometer = memo((props: SpeedometerButtonMintProps) => {
 
     return (
         <div onClick={openModalMint} className={classNames(styles.buttonMint, {
-            // [styles.disable]: !changePrice || changePrice >= 0
+            [styles.disable]: !changePrice || changePrice >= 0
         })}>
             <div {...bindHover} className={styles.wrapperButton}>
                 {
