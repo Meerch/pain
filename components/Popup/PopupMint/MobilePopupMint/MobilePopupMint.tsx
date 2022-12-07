@@ -21,7 +21,8 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
         canFreeMint,
         amount,
         onClickButton,
-        changePrice
+        changePrice,
+        isFreeMint
     } = useMintProcess()
 
     return (
@@ -40,7 +41,14 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                     <div className={styles.edition}>
                         Edition of 6666
                     </div>
-                    <span className={styles.price}>Price: {mintPrice ? mintPrice : 'Loading...'} eth</span>
+                    <span className={styles.price}>
+                        {isLoadingMintPrice && 'Loading...'}
+                        {
+                            !isLoadingMintPrice && isFreeMint
+                                ? `FREE (only gas fees)`
+                                : `Price: ${mintPrice} eth`
+                        }
+                    </span>
                 </div>
 
                 <div className={styles.infoPrice}>
@@ -55,20 +63,37 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                 </div>
             </div>
 
-            <div className={styles.titleInput}>Enter amount</div>
+            <div className={styles.titleInput}>
+                {isFreeMint ? 'Available' :'Enter'} amount
+            </div>
             <div className={styles.choiceAmount}>
-                <div onClick={() => changeAmount(-1)} className={styles.minus}/>
+                <div
+                    onClick={() => changeAmount(-1)}
+                    className={classNames(styles.minus, {
+                        [styles.notVisible]: isFreeMint,
+                    })}
+                />
                 <span className={styles.amountValue}>{amount}</span>
-                <div onClick={() => changeAmount(1)} className={styles.plus}/>
+                <div
+                    onClick={() => changeAmount(1)}
+                    className={classNames(styles.plus, {
+                        [styles.notVisible]: isFreeMint,
+                    })}
+                />
             </div>
             {
-                !canFreeMint &&
+                !isFreeMint &&
                 <span className={styles.total}>
                     in total: {mintPrice ? +mintPrice * amount : 'Loading...'} ETH
                 </span>
             }
-            <span className={styles.available}>available: {+changePrice > -15 ? 5 : 3}</span>
-            {isLoading && <span className={styles.loading}>Loading...</span>}
+            {/*<span className={styles.available}>available: {+changePrice > -15 ? 5 : 3}</span>*/}
+
+            {
+                isLoading &&
+                <span className={styles.loading}>Loading...</span>
+            }
+
             <button onClick={onClickButton} className={classNames(styles.button, {
                 [styles.inactive]: isLoading || error
             })}>

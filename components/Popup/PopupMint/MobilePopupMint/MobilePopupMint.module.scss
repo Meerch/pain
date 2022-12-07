@@ -25,7 +25,7 @@
 
     .info {
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: column nowrap;
         margin-top: 30px;
         align-items: center;
 
@@ -39,6 +39,7 @@
             background-color: #EF617F;
             border-radius: 5px;
             display: flex;
+            margin-bottom: 10px;
             align-items: center;
             justify-content: center;
             font-size: 18px;
@@ -110,6 +111,10 @@
         border-radius: 99px;
         position: relative;
         border: 2px solid rgba(133, 133, 169, 0.3);
+
+        &.notVisible {
+            visibility: hidden;
+        }
     }
 
     .plus {
@@ -179,6 +184,7 @@
 }
 
 .button {
+    margin-top: 40px;
     cursor: pointer;
     width: 100%;
     background-color: #A10004;

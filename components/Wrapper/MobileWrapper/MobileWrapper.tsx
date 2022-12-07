@@ -4,18 +4,18 @@ import {Description} from "../../Description";
 import {InfoPanels} from "../../InfoPanels";
 import {Header} from "../../Header";
 import {Links} from "../../Links";
-import NewSpeedometer from "../../NewSpeedometer/NewSpeedometer";
+import {Speedometer} from '../../Speedometer';
 
 export const MobileWrapper = () => {
 
     return (
         <div className={styles.desktopWrapper}>
-            <Header />
-            <Logo />
-            <Description />
-            <NewSpeedometer />
+            <Header/>
+            <Logo/>
+            <Description/>
+            <Speedometer/>
             <Links/>
-            <InfoPanels />
+            <InfoPanels/>
         </div>
     );
 };

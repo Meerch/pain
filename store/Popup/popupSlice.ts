@@ -2,15 +2,18 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export type CurrentPopup = 'mint' | 'success' | null
+export type SelectedTypeMint = 'free' | 'paid'
 
 export interface PopupState {
     currentPopup: CurrentPopup,
-    amountMintedNfts: number[]
+    amountMintedNfts: number[],
+    selectedTypeMint: SelectedTypeMint
 }
 
 const initialState: PopupState = {
     currentPopup: null,
-    amountMintedNfts: []
+    amountMintedNfts: [],
+    selectedTypeMint: 'paid'
 }
 
 export const popupSlice = createSlice({
@@ -22,7 +25,10 @@ export const popupSlice = createSlice({
         },
         setAmountMintedNfts: (state, action: PayloadAction<number[]>) => {
             state.amountMintedNfts = action.payload
-        }
+        },
+        setSelectedTypeMint: (state, action: PayloadAction<SelectedTypeMint>) => {
+            state.selectedTypeMint = action.payload
+        },
     },
 })
 

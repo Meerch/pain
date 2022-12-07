@@ -13,4 +13,5 @@ export interface SpeedometerSchema {
     metaToken?: MetaToken
     currentRound?: number | string
     signature?: any
+    amountToMint?: number
 }

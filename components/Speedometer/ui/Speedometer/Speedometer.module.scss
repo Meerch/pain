@@ -1,16 +1,23 @@
-@import 'styles/variables';
+@import "../../../../styles/variables";
 
 .speedometer {
-  width: 250px;
-  height: 310px;
-  position: relative;
-  margin: 0 auto;
-  z-index: 1;
+    display: flex;
+    z-index: 1000;
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    //height: 472px;
+    margin: 50px auto 0 auto;
 
-  @media (min-width: $media-min-screen) {
-    //width: 520px;
-    width: 380px;
-    height: 600px;
-    margin: -350px 0 0 0;
-  }
+    @media (min-width: $media-min-screen) {
+        width: 451px;
+        max-width: none;
+        height: 472px;
+        margin: 50px 0 0 0;
+    }
+}
+
+.speedometerImage {
+    width: 100%;
+    height: auto;
 }

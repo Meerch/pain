@@ -16,7 +16,8 @@ import {popupActions} from "../../../../store/Popup/popupSlice";
 
 
 export const useMintProcess = () => {
-    const [amount, setAmount] = useState(1)
+    const selectedTypeMint = useSelector((state: RootState) => state.popup?.selectedTypeMint)
+    const amountToMint = useSelector((state: RootState) => state.speedometer?.amountToMint)
     const dispatch = useTypedDispatch()
     const {address} = useAccount()
     const currentRoundId = useSelector((state: RootState) => state.speedometer?.currentRound)
@@ -33,8 +34,14 @@ export const useMintProcess = () => {
         data: canFreeMint,
         isLoading: isLoadingCanFreeMint
     } = useContractRead(generateContractPainSetting('canFreeMint', {
-        args: signature && address && [signature, address],
+        args: signature && address && [amountToMint, signature, address],
     }))
+
+    const isFreeMint = selectedTypeMint === 'free' && canFreeMint
+
+    const [amount, setAmount] = useState(isFreeMint && amountToMint ? amountToMint : 1)
+
+
 
 
     const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('MINT_PRICE', {
@@ -63,7 +70,7 @@ export const useMintProcess = () => {
     })
 
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
-        args: currentRoundId && [currentRoundId, signature],
+        args: currentRoundId && [currentRoundId, +amount, signature]
     }))
 
     const {write: onFreeMint, data: dataFreeMint, isLoading: isLoadingWriteFreeMint} = useContractWrite(configFreeMint)
@@ -79,7 +86,7 @@ export const useMintProcess = () => {
 
 
     const changeAmount = (value: number) => {
-        if (!changePrice || canFreeMint || isLoading) {
+        if (!changePrice || isFreeMint || isLoading || isFreeMint) {
             return
         }
 
@@ -91,15 +98,16 @@ export const useMintProcess = () => {
     }
 
     useEffect(() => {
-        if (!canFreeMint && (!resultMint || !isSuccessMint)) {
+        if (!isFreeMint && (!resultMint || !isSuccessMint)) {
             return
         }
 
-        if (canFreeMint && (!resultFreeMint || !isSuccessFreeMint)) {
+        if (isFreeMint && (!resultFreeMint || !isSuccessFreeMint)) {
             return
         }
 
         const ids = []
+        console.log('result mint', resultMint)
         resultMint?.logs?.forEach(log => {
             const {topics} = log
             if (topics[3] && topics[1] && parseInt(log.topics[1], 16) === 0) {
@@ -116,11 +124,11 @@ export const useMintProcess = () => {
 
 
     const onClickButton = () => {
-        if (isLoading || (error && !canFreeMint)) {
+        if (isLoading || (error && !isFreeMint)) {
             return
         }
 
-        if (canFreeMint) {
+        if (isFreeMint) {
             onFreeMint?.()
         } else {
             onMint?.()
@@ -137,6 +145,8 @@ export const useMintProcess = () => {
         canFreeMint,
         onClickButton,
         amount,
-        changePrice
+        changePrice,
+        isFreeMint,
+        amountToMint
     }
 }

@@ -4,7 +4,7 @@ import {Description} from "../../Description";
 import {InfoPanels} from "../../InfoPanels";
 import {Header} from "../../Header";
 import {Links} from "../../Links";
-import NewSpeedometer from '../../NewSpeedometer/NewSpeedometer';
+import {Speedometer} from '../../Speedometer';
 
 export const DesktopWrapper = () => {
 
@@ -12,7 +12,7 @@ export const DesktopWrapper = () => {
         <div className={styles.desktopWrapper}>
             <Header/>
             <div className={styles.wrapperIntro}>
-                <NewSpeedometer />
+                <Speedometer/>
                 <div className={styles.wrapperRightContent}>
                     <Logo/>
                     <Description/>

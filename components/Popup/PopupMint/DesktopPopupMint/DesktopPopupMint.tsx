@@ -20,18 +20,27 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
         canFreeMint,
         amount,
         onClickButton,
-        changePrice
+        changePrice,
+        isFreeMint,
+        amountToMint
     } = useMintProcess()
 
     return (
-        <PopupLayout onClose={onClose} className={styles.popup}>
+        <PopupLayout onClose={onClose} className={classNames(styles.popup, {
+            [styles.freeMint]: isFreeMint
+        })}>
             <div className={styles.preview}>
                 <img className={styles.logo} src="/images/logo-2.jpg" alt="PAIN"/>
                 <div className={styles.edition}>
                     Edition of 6666
                 </div>
                 <span className={styles.price}>
-                    {isLoadingMintPrice ? 'Loading' : `Price: ${mintPrice} eth`}
+                    {isLoadingMintPrice && 'Loading...'}
+                    {
+                        !isLoadingMintPrice && isFreeMint
+                            ? `FREE (only gas fees)`
+                            : `Price: ${mintPrice} eth`
+                    }
                 </span>
             </div>
             {
@@ -48,24 +57,34 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                         <div className={styles.priceChange}>
                             24h ETH PRICE change: <span className={styles.mark}>{changePrice}%</span>
                         </div>
-                        <div className={styles.titleInput}>Enter amount</div>
+                        <div className={styles.titleInput}>{isFreeMint ? 'Available' :'Enter'} amount</div>
                         <div className={styles.choiceAmount}>
-                            <div onClick={() => changeAmount(-1)} className={styles.minus}/>
+                            <div
+                                onClick={() => changeAmount(-1)}
+                                className={classNames(styles.minus, {
+                                    [styles.notVisible]: isFreeMint,
+                                })}
+                            />
                             <span className={styles.amountValue}>{amount}</span>
-                            <div onClick={() => changeAmount(1)} className={styles.plus}/>
+                            <div
+                                onClick={() => changeAmount(1)}
+                                className={classNames(styles.plus, {
+                                    [styles.notVisible]: isFreeMint,
+                                })}
+                            />
                         </div>
                         {
-                            !canFreeMint &&
+                            !isFreeMint &&
                             <span className={styles.total}>
                                 in total: {mintPrice ? +mintPrice * amount : 'Loading...'} ETH
                             </span>
                         }
                         <button onClick={onClickButton} className={classNames(styles.button, {
-                            [styles.inactive]: isLoading || (error && !canFreeMint),
-                            [styles.maxBottom]: canFreeMint
+                            [styles.inactive]: isLoading || (error && !isFreeMint),
+                            [styles.maxBottom]: isFreeMint
                         })}>
                             {
-                                (error && !canFreeMint)
+                                (error && !isFreeMint)
                                     ? error
                                     // : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
                                     : textButtonMint

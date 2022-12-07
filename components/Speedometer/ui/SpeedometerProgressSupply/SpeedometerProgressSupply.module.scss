@@ -1,40 +1,56 @@
-@import "styles/variables";
+@import "../../../../styles/variables";
+
+.wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
 
 .wrapperValue {
     position: absolute;
     transform-origin: 50% 98%;
     width: 2px;
-    height: 210px;
-    top: -5%;
-    left: 49%;
     background: none;
     z-index: 1000;
 
+    height: 56%;
+    top: -15%;
+    left: 45%;
+
     @media (min-width: $media-min-screen) {
-        height: 320px;
-        top: 5%;
+        height: 273px;
+        top: -16%;
         left: 44%;
     }
 }
 
 .value {
-    font-size: 44px;
+    font-size: 30px;
     position: absolute;
     top: 0;
-    //left: 0;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .speedometerProgressSupply {
     position: absolute;
-    width: 115%;
-    top: -20%;
-    left: -7%;
+    //width: 115%;
+    //top: -20%;
+    //left: -7%;
+    top: -29%;
+    left: 46%;
+    width: 95%;
+    transform: translateX(-50%);
+    height: auto;
 
     @media (min-width: $media-min-screen) {
-        top: 15%;
-        left: -13%;
+        top: -14%;
+        left: 46%;
+        transform: translateX(-50%);
+        width: 436px;
+        height: 90%;
 
         path {
             strokeWidth: 3px;

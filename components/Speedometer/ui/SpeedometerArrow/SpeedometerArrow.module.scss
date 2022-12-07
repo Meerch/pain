@@ -1,19 +1,22 @@
-@import "styles/variables";
+@import "../../../../styles/variables";
 
 .arrowWrapper {
     position: absolute;
     transform-origin: 46% 88%;
     transition: transform 0.5s linear;
-    transform: rotate(-130deg);
-    top: 22%;
-    left: 44%;
-    width: 31px;
     z-index: 20;
+    //transform: rotate(-130deg);
+    top: 4%;
+    left: 41%;
+    width: 10%;
 
     @media (min-width: $media-min-screen) {
-        width: auto;
-        top: 22%;
-        left: 39%;
+        width: 10%;
+        top: 5%;
+        left: 41%;
+        //transform: translateX(-50%);
+        //top: 22%;
+        //left: 39%;
     }
 
     .head {
@@ -21,14 +24,13 @@
 
         left: 50%;
         transform: translateX(-50%);
-        top: -16px;
-        width: 24px;
-        height: 32px;
+        top: -15px;
+        width: 80%;
+        height: auto;
+        //height: 32px;
 
         @media (min-width: $media-min-screen) {
             top: -30px;
-            width: 44px;
-            height: 60px;
         }
     }
 

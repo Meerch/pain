@@ -1,6 +1,10 @@
 .popup {
     width: 824px;
-    height: 460px;
+    height: 480px;
+
+    &.freeMint {
+        height: 450px;
+    }
 }
 
 .preview {
@@ -50,6 +54,7 @@
     }
 
     .description {
+        text-align: center;
         font-size: 16px;
         margin-top: 15px;
         color: rgba(255, 255, 255, 0.7);
@@ -94,6 +99,10 @@
             border-radius: 99px;
             position: relative;
             border: 2px solid rgba(133, 133, 169, 0.3);
+
+            &.notVisible {
+                visibility: hidden;
+            }
         }
 
         .plus {
