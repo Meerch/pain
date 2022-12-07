@@ -13,8 +13,11 @@ export const fetchWhitelistSignature = createAsyncThunk<any, string, {rejectValu
             })
 
             if (!response.data) {
-                throw new Error('server error')
+                return rejectWithValue('error')
             }
+
+            console.log('response.signature', response.data.signature)
+            console.log('response.amount', response.data.amountToMint)
 
             return response.data
         } catch {

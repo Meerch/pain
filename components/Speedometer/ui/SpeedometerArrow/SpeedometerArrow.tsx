@@ -12,9 +12,9 @@ const SpeedometerArrow = memo(({progress}: SpeedometerArrowProps) => {
     const calculateRotateArrow = () => {
         const positiveProgress = Math.abs(progress)
         if (progress <= 0 && progress >= -20) {
-             // calculation rotate within the working value (from 0 to 20)
+            // calculation rotate within the working value (from 0 to 20)
             const percent = 1 / (20 / positiveProgress)
-            return initialRotateArrow + (180 * percent)
+            return initialRotateArrow + (190 * percent)
         } else if (progress >= 10) {
             // limit rotate by positive change price (progress)
             return initialRotateArrow - 40
@@ -78,10 +78,3 @@ const SpeedometerArrow = memo(({progress}: SpeedometerArrowProps) => {
 SpeedometerArrow.displayName = 'SpeedometerArrow'
 
 export default SpeedometerArrow;
-
-// <img
-//     style={{transform: `rotate(${calculateRotateArrow()}deg)`}}
-//     src="/images/speedometer/arrow.svg"
-//     alt="->"
-//     className={styles.arrow}
-// />

@@ -1,11 +1,9 @@
 import React, {memo, useEffect, useState} from 'react';
 import styles from "./SpeedometerProgressSupply.module.scss";
 import {useContractRead} from "wagmi";
-import {generateContractPainSetting} from "../../../../blockchain/utils";
-import {formatEther, toWei} from "../../../../helpers/utils";
-
-// const startRotate = -85
-// const endRotate = 85
+import { generateContractPainSetting } from '../../../../blockchain/utils';
+import { formatEther, toWei } from '../../../../helpers/utils';
+import {useDetectDevice} from "../../../../hooks/useDetectDevice";
 
 const startRotate = -90
 const endRotate = 90
@@ -13,6 +11,7 @@ const endRotate = 90
 const SpeedometerProgressSupply = memo(() => {
     const [supplies, setSupplies] = useState([])
     const [progress, setProgress] = useState(0)
+    const {isMobile} = useDetectDevice()
     const changeSupplies = (index: number, data) => {
         setSupplies(prev => {
             const clone = [...prev]
@@ -22,26 +21,29 @@ const SpeedometerProgressSupply = memo(() => {
     }
     const mintedNft = 6666 - (supplies.length === 4 ? supplies.reduce((supply1, supply2) => supply1 + supply2) : 6666)
 
-
     useContractRead(generateContractPainSetting('availableSupply', {
         args: [0],
         onSuccess: (data) => changeSupplies(0, data),
-        select: (data) => toWei(formatEther(data))
+        select: (data) => toWei(formatEther(data)),
+        onError: err => console.log('error 1', err),
     }))
     useContractRead(generateContractPainSetting('availableSupply', {
         args: [1],
         onSuccess: (data) => changeSupplies(1, data),
-        select: (data) => toWei(formatEther(data))
+        select: (data) => toWei(formatEther(data)),
+        onError: err => console.log('error 2', err),
     }))
     useContractRead(generateContractPainSetting('availableSupply', {
         args: [2],
         onSuccess: (data) => changeSupplies(2, data),
-        select: (data) => toWei(formatEther(data))
+        select: (data) => toWei(formatEther(data)),
+        onError: err => console.log('error 3', err),
     }))
     useContractRead(generateContractPainSetting('availableSupply', {
         args: [3],
         onSuccess: (data) => changeSupplies(3, data),
-        select: (data) => toWei(formatEther(data))
+        select: (data) => toWei(formatEther(data)),
+        onError: err => console.log('error 4', err),
     }))
 
     useEffect(() => {
@@ -76,7 +78,6 @@ const SpeedometerProgressSupply = memo(() => {
         }
     }
 
-
     return (
         <div className={styles.wrapper}>
             <div
@@ -89,7 +90,7 @@ const SpeedometerProgressSupply = memo(() => {
                     {mintedNft}
                 </div>
             </div>
-            <svg className={styles.speedometerProgressSupply} width="526" height="437" viewBox="0 0 526 437" fill="none"
+            <svg className={styles.speedometerProgressSupply} width={isMobile ? "326" : "526"} height="437" viewBox="0 0 526 437" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <path
                     fill="url(#gradient)"
