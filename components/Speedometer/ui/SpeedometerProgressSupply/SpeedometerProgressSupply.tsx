@@ -87,7 +87,7 @@ const SpeedometerProgressSupply = memo(() => {
                 className={styles.wrapperValue}
             >
                 <div className={styles.value}>
-                    {mintedNft}
+                    {mintedNft ?? 0}
                 </div>
             </div>
             <svg className={styles.speedometerProgressSupply} width={isMobile ? "326" : "526"} height="437" viewBox="0 0 526 437" fill="none"

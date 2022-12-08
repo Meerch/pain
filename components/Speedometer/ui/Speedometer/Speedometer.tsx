@@ -20,7 +20,8 @@ const Speedometer = () => {
     const [progress, setProgress] = useState(0)
     const currentRound = useSelector((state: RootState) => state.speedometer?.currentRound)
     const {data: changePrice}: Pick<{ data: number }, any> = useContractRead(generateContractPainSetting('getDiff', {
-        args: currentRound && currentRound,
+        args: currentRound,
+        enabled: currentRound,
         onError: err => console.log('getDiff speedometer', err),
         select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))

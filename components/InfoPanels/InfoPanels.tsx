@@ -34,7 +34,7 @@ export const InfoPanels = () => {
     const [supplies, setSupplies] = useState([])
     const currentRound = useSelector((state: RootState) => state.speedometer.currentRound)
     const {data: changePrice}: Pick<{ data: number }, any> = useContractRead(generateContractPainSetting('getDiff', {
-        args: currentRound && currentRound,
+        args: currentRound,
         enabled: currentRound,
         select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))

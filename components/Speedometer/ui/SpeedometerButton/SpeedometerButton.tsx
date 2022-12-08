@@ -36,7 +36,8 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
         data: canFreeMint,
         isLoading: isLoadingCanFreeMint
     } = useContractRead(generateContractPainSetting('canFreeMint', {
-        args: signature && address && [amountToMint, signature, address],
+        args: [amountToMint, signature, address],
+        enabled: signature && amountToMint && address,
         onError: err => console.log('error can free mint', err)
     }))
 

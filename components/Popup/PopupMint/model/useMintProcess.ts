@@ -24,7 +24,7 @@ export const useMintProcess = () => {
     const signature = useSelector((state: RootState) => state.speedometer?.signature)
     const stats = useSelector((state: RootState) => state.speedometer?.stats)
     const {data: changePrice} = useContractRead(generateContractPainSetting('getDiff', {
-        args: currentRoundId && currentRoundId,
+        args: currentRoundId,
         enabled: currentRoundId,
         select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))
@@ -34,22 +34,21 @@ export const useMintProcess = () => {
         data: canFreeMint,
         isLoading: isLoadingCanFreeMint
     } = useContractRead(generateContractPainSetting('canFreeMint', {
-        args: signature && address && [amountToMint, signature, address],
+        args: [amountToMint, signature, address],
+        enabled: signature && address && address
     }))
 
     const isFreeMint = selectedTypeMint === 'free' && canFreeMint
 
     const [amount, setAmount] = useState(isFreeMint && amountToMint ? amountToMint : 1)
 
-
-
-
     const {data: mintPrice, isLoading: isLoadingMintPrice} = useContractRead(generateContractPainSetting('MINT_PRICE', {
         select: (data) => +formatEther(data)
     }))
 
     const {config: configMint} = usePrepareContractWrite(generateContractPainSetting('getMyPain', {
-        args: currentRoundId && [currentRoundId, amount],
+        args: [currentRoundId, amount],
+        enabled: currentRoundId && mintPrice,
         onError: error => {
             if (String(error).includes('INSUFFICIENT_FUNDS')) {
                 setError('Insufficient funds')
@@ -70,7 +69,9 @@ export const useMintProcess = () => {
     })
 
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
-        args: currentRoundId && [currentRoundId, +amount, signature]
+        args: [currentRoundId, +amount, signature],
+        enabled: isFreeMint && currentRoundId && signature,
+        onError: err => console.log('prepare free mint', err)
     }))
 
     const {write: onFreeMint, data: dataFreeMint, isLoading: isLoadingWriteFreeMint} = useContractWrite(configFreeMint)
@@ -127,6 +128,10 @@ export const useMintProcess = () => {
         if (isLoading || (error && !isFreeMint)) {
             return
         }
+
+        console.log('isFreeMint', isFreeMint)
+        console.log('selectedTypeMint', selectedTypeMint)
+        console.log('canFreeMint', canFreeMint)
 
         if (isFreeMint) {
             onFreeMint?.()
