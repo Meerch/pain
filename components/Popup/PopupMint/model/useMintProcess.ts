@@ -109,7 +109,9 @@ export const useMintProcess = () => {
 
         const ids = []
         console.log('result mint', resultMint)
-        resultMint?.logs?.forEach(log => {
+        console.log('result mint', resultFreeMint)
+        const result = isFreeMint ? resultFreeMint : resultMint
+        result?.logs?.forEach(log => {
             const {topics} = log
             if (topics[3] && topics[1] && parseInt(log.topics[1], 16) === 0) {
                 const parseId = parseInt(topics[3], 16)

@@ -2,7 +2,7 @@ import {Chain, configureChains, createClient} from "wagmi";
 import {jsonRpcProvider} from "wagmi/providers/jsonRpc";
 import {getDefaultWallets} from "@rainbow-me/rainbowkit";
 
-export const addressPainContract = '0x0CaE51d7f952fED88B8512d1CC1c9061B6F72850'
+export const addressPainContract = '0x5b8d000a28e756D16c1dF897eDBafd0598F417b0'
 
 const avalancheChain: Chain = {
     id: 5,

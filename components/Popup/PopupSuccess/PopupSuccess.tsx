@@ -29,6 +29,7 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
 
     const fetchImagesMintedNfts = async () => {
         const images = await getImagesMintedNfts(amountMintedNfts[0], amountMintedNfts.length)
+        console.log('images', images);
 
         if (images && Array.isArray(images)) {
             setImagesMintedNfts(images)

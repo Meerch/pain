@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import styles from "./SpeedometerButton.module.scss";
 import {useAccount, useContractRead} from 'wagmi';
 import {useSelector} from "react-redux";
@@ -9,7 +9,7 @@ import {RootState} from "../../../../store/store";
 import {useTypedDispatch} from "../../../../hooks/useTypedDispatch";
 import {useHover} from "../../../../hooks/useHover";
 import {generateContractPainSetting} from "../../../../blockchain/utils";
-import {formatEther} from "../../../../helpers/utils";
+import {formatEther, toWei} from "../../../../helpers/utils";
 import {fetchWhitelistSignature} from "../../model/services/fetchWhitelistSignature";
 import {popupActions} from '../../../../store/Popup/popupSlice';
 import {
@@ -27,14 +27,64 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const dispatch = useTypedDispatch()
     const signature = useSelector((state: RootState) => state.speedometer?.signature)
     const amountToMint = useSelector((state: RootState) => state.speedometer?.amountToMint)
+    const amountMintedNfts = useSelector((state: RootState) => state.popup?.amountMintedNfts)
     const {address} = useAccount()
     const {openConnectModal} = useConnectModal();
     const [isHover, bindHover] = useHover()
     const [isHoverFreeMint, bindHoverFreeMint] = useHover()
 
+    const [supplies, setSupplies] = useState([])
+    const [activePanel, setActivePanel] = useState(null)
+
+    const changeSupplies = (index: number, data) => {
+        setSupplies(prev => {
+            const clone = [...prev]
+            clone[index] = data
+            return clone
+        })
+    }
+
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [0],
+        onSuccess: (data) => changeSupplies(0, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [1],
+        onSuccess: (data) => changeSupplies(1, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [2],
+        onSuccess: (data) => changeSupplies(2, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [3],
+        onSuccess: (data) => changeSupplies(3, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+
+    useEffect(() => {
+        console.log('supplies', supplies)
+        if (changePrice <= -15) {
+            setActivePanel(3)
+        } else if (changePrice <= -10) {
+            setActivePanel(2)
+        } else if (changePrice <= -5) {
+            setActivePanel(1)
+        } else if (changePrice < 0) {
+            setActivePanel(0)
+        } else if (changePrice >= 0) {
+            setActivePanel(null)
+        }
+    }, [changePrice, supplies])
+
+
     const {
         data: canFreeMint,
-        isLoading: isLoadingCanFreeMint
+        isLoading: isLoadingCanFreeMint,
+        refetch: refetchCanFreeMint
     } = useContractRead(generateContractPainSetting('canFreeMint', {
         args: [amountToMint, signature, address],
         enabled: signature && amountToMint && address,
@@ -46,13 +96,18 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     }))
 
     useEffect(() => {
+        void refetchCanFreeMint()
+    }, [amountMintedNfts])
+
+    useEffect(() => {
         if (address) {
             dispatch(fetchWhitelistSignature(address))
+            void refetchCanFreeMint()
         }
     }, [address])
 
     const openModalMint = (type: 'paid' | 'free') => () => {
-        if (!changePrice || changePrice >= 0) {
+        if (!changePrice || changePrice >= 0 || supplies[activePanel] === 0) {
             return
         }
         if (!address) {
@@ -66,11 +121,13 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
 
     return (
         <div className={classNames(styles.buttonMint, {
-            [styles.disable]: !changePrice || changePrice >= 0
+            [styles.disable]: !changePrice || changePrice >= 0 || supplies[activePanel] === 0
         })}>
             <div
                 onClick={openModalMint('paid')}
-                className={styles.wrapperButton}
+                className={classNames(styles.wrapperButton, {
+                    [styles.disable]: !changePrice || changePrice >= 0 || supplies[activePanel] === 0
+                })}
                 {...bindHover}
             >
                 {
@@ -88,7 +145,9 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
                 amountToMint > 0 && canFreeMint &&
                 <div
                     onClick={openModalMint('free')}
-                    className={classNames(styles.wrapperButton, styles.wrapperButtonFree)}
+                    className={classNames(styles.wrapperButton, styles.wrapperButtonFree, {
+                        [styles.disable]: !changePrice || changePrice >= 0 || supplies[activePanel] === 0
+                    })}
                     {...bindHoverFreeMint}
                 >
                     {
