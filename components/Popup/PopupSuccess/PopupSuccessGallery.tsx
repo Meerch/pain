@@ -45,6 +45,14 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
                     swiper.params.navigation.nextEl = navigationNextRef.current;
                 }}
                 onSlideChange={(swiper) => {
+                    // @ts-ignore
+                    console.log('navigationPrevRef.current', navigationPrevRef?.current)
+                    // @ts-ignore
+                    console.log('navigationNextRef.current', navigationNextRef?.current)
+                    // @ts-ignore
+                    console.log('swiper.params.navigation.prevEl', swiper?.params?.navigation?.prevEl)
+                    // @ts-ignore
+                    console.log('swiper.params.navigation.nextEl', swiper?.params?.navigation?.nextEl)
                     setProgressGallery(swiper.progress)
                     setActiveSlide(swiper.activeIndex + 1)
                 }}

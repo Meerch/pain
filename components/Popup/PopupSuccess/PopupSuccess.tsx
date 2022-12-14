@@ -20,7 +20,13 @@ interface PopupLayoutProps {
 const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
     const dispatch = useTypedDispatch()
     const amountMintedNfts = useSelector((state: RootState) => state.popup.amountMintedNfts)
-    const [imagesMintedNfts, setImagesMintedNfts] = useState([])
+    const [imagesMintedNfts1, setImagesMintedNfts] = useState([])
+    const imagesMintedNfts = [
+        '/images/logo-2.jpg',
+        '/images/logo-2.jpg',
+        '/images/logo-2.jpg',
+        '/images/logo-2.jpg'
+    ]
     const {play, stop} = useCustomSound(soundConnect)
 
     const onClickButton = () => {
@@ -90,7 +96,7 @@ const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
             }
             <div className={styles.description}>
                 You’ve got <span className={styles.mark}>
-                {amountMintedNfts.length}
+                {amountMintedNfts?.length && amountMintedNfts.length}
                 </span> dose of pAIn. {getRandomText()}
             </div>
             <button onClick={onClickButton} className={styles.button}>
