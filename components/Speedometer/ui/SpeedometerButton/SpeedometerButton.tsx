@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import styles from "./SpeedometerButton.module.scss";
-import {useAccount, useContractRead} from 'wagmi';
+import {useAccount, useContractRead, useNetwork, useSwitchNetwork} from 'wagmi';
 import {useSelector} from "react-redux";
 import classNames from 'classnames';
 
@@ -17,6 +17,7 @@ import {
     svgButtonFreeMint, svgButtonFreeMintWithoutShadow,
     svgButtonWithoutShadow
 } from './svgButton';
+import {chainId} from "../../../../blockchain/config";
 
 interface SpeedometerButtonMintProps {
     changePrice?: number
@@ -32,6 +33,8 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const {openConnectModal} = useConnectModal();
     const [isHover, bindHover] = useHover()
     const [isHoverFreeMint, bindHoverFreeMint] = useHover()
+    const { chain } = useNetwork()
+    const { switchNetwork } = useSwitchNetwork()
 
     const [supplies, setSupplies] = useState([])
     const [activePanel, setActivePanel] = useState(null)
@@ -66,7 +69,6 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     }))
 
     useEffect(() => {
-        console.log('supplies', supplies)
         if (changePrice <= -15) {
             setActivePanel(3)
         } else if (changePrice <= -10) {
@@ -112,6 +114,11 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
         }
         if (!address) {
             openConnectModal()
+            return
+        }
+
+        if (chain && chain.id !== chainId) {
+            switchNetwork?.(chainId)
             return
         }
 

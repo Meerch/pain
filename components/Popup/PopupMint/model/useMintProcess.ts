@@ -3,8 +3,8 @@ import {useTypedDispatch} from "../../../../hooks/useTypedDispatch";
 import {
     useAccount,
     useContractRead,
-    useContractWrite,
-    usePrepareContractWrite,
+    useContractWrite, useNetwork,
+    usePrepareContractWrite, useSwitchNetwork,
     useWaitForTransaction
 } from "wagmi";
 import {useSelector} from "react-redux";
@@ -13,6 +13,7 @@ import {generateContractPainSetting} from "../../../../blockchain/utils";
 import {formatEther, toWei} from "../../../../helpers/utils";
 import {ethers} from "ethers";
 import {popupActions} from "../../../../store/Popup/popupSlice";
+import {chainId} from "../../../../blockchain/config";
 
 
 export const useMintProcess = () => {
@@ -29,6 +30,8 @@ export const useMintProcess = () => {
         select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))
     const [error, setError] = useState<string | null>(null)
+    const {chain} = useNetwork()
+    const {switchNetwork} = useSwitchNetwork()
 
     const {
         data: canFreeMint,
@@ -60,7 +63,8 @@ export const useMintProcess = () => {
         overrides: {
             from: address,
             value: ethers.utils.parseEther(String(+mintPrice * amount))
-        }
+        },
+        chainId: chainId,
     }))
 
     const {write: onMint, data: dataMint, isLoading: isLoadingWriteMint} = useContractWrite(configMint)
@@ -71,7 +75,8 @@ export const useMintProcess = () => {
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
         args: [currentRoundId, +amount, signature],
         enabled: isFreeMint && currentRoundId && signature,
-        onError: err => console.log('prepare free mint', err)
+        onError: err => console.log('prepare free mint', err),
+        chainId: chainId,
     }))
 
     const {write: onFreeMint, data: dataFreeMint, isLoading: isLoadingWriteFreeMint} = useContractWrite(configFreeMint)
@@ -131,9 +136,10 @@ export const useMintProcess = () => {
             return
         }
 
-        console.log('isFreeMint', isFreeMint)
-        console.log('selectedTypeMint', selectedTypeMint)
-        console.log('canFreeMint', canFreeMint)
+        if (chain && chain.id !== chainId) {
+            switchNetwork?.(chainId)
+            return
+        }
 
         if (isFreeMint) {
             onFreeMint?.()

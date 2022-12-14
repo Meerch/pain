@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useState } from 'react';
+import React, {memo, useRef, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react'
 import styles from './PopupSuccessGallery.module.scss'
 import SwiperCore, {Navigation} from 'swiper';
@@ -12,8 +12,8 @@ interface PopupSuccessGalleryProps {
 SwiperCore.use([Navigation])
 
 const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGalleryProps) => {
-    const navigationPrevRef = React.useRef(null)
-    const navigationNextRef = React.useRef(null)
+    const navigationPrevRef = useRef(null)
+    const navigationNextRef = useRef(null)
     const [progressGallery, setProgressGallery] = useState(0)
     const [activeSlide, setActiveSlide] = useState(1)
 
