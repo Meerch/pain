@@ -116,7 +116,7 @@ export default function Home() {
                     </>
                 }
 
-                {currentPopup !== 'success' &&
+                {currentPopup === 'success' &&
                     <PopupSuccess onClose={closeModal}/>
                 }
             </div>

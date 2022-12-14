@@ -20,13 +20,7 @@ interface PopupLayoutProps {
 const PopupSuccess: FC<PopupLayoutProps> = ({onClose}) => {
     const dispatch = useTypedDispatch()
     const amountMintedNfts = useSelector((state: RootState) => state.popup.amountMintedNfts)
-    const [imagesMintedNfts1, setImagesMintedNfts] = useState([])
-    const imagesMintedNfts = [
-        '/images/logo-2.jpg',
-        '/images/logo-2.jpg',
-        '/images/logo-2.jpg',
-        '/images/logo-2.jpg'
-    ]
+    const [imagesMintedNfts, setImagesMintedNfts] = useState([])
     const {play, stop} = useCustomSound(soundConnect)
 
     const onClickButton = () => {
