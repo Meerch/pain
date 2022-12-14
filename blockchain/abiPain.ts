@@ -157,6 +157,12 @@ export const abiPain = [{
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [{"internalType": "address", "name": "_aggregator", "type": "address"}],
+    "name": "changeAggregator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
     "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
     "name": "explicitOwnershipOf",
     "outputs": [{
