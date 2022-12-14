@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react'
 import styles from './PopupSuccessGallery.module.scss'
 import SwiperCore, {Navigation} from 'swiper';
@@ -14,14 +14,26 @@ SwiperCore.use([Navigation])
 const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGalleryProps) => {
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
+    const sliderRef = useRef(null)
     const [progressGallery, setProgressGallery] = useState(0)
     const [activeSlide, setActiveSlide] = useState(1)
+
+    const handlePrev = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slidePrev();
+    }, []);
+
+    const handleNext = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slideNext();
+    }, []);
 
     return (
         <div className={classNames(styles.galleryWrapper, className)}>
             {
                 mintedImages?.length > 1 &&
                 <svg
+                    onClick={handlePrev}
                     className={classNames(styles.arrow, styles.prev, {
                         [styles.inactive]: progressGallery === 0
                     })}
@@ -31,28 +43,29 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
                 </svg>
             }
             <Swiper
+                ref={sliderRef}
                 className={styles.gallery}
                 slidesPerView={1}
                 spaceBetween={50}
-                navigation={{
-                    prevEl: navigationPrevRef.current,
-                    nextEl: navigationNextRef.current,
-                }}
-                onBeforeInit={(swiper) => {
-                    // @ts-ignore
-                    swiper.params.navigation.prevEl = navigationPrevRef.current;
-                    // @ts-ignore
-                    swiper.params.navigation.nextEl = navigationNextRef.current;
-                }}
+                // navigation={{
+                //     prevEl: navigationPrevRef.current,
+                //     nextEl: navigationNextRef.current,
+                // }}
+                // onBeforeInit={(swiper) => {
+                //     // @ts-ignore
+                //     swiper.params.navigation.prevEl = navigationPrevRef.current;
+                //     // @ts-ignore
+                //     swiper.params.navigation.nextEl = navigationNextRef.current;
+                // }}
                 onSlideChange={(swiper) => {
-                    // @ts-ignore
-                    console.log('navigationPrevRef.current', navigationPrevRef?.current)
-                    // @ts-ignore
-                    console.log('navigationNextRef.current', navigationNextRef?.current)
-                    // @ts-ignore
-                    console.log('swiper.params.navigation.prevEl', swiper?.params?.navigation?.prevEl)
-                    // @ts-ignore
-                    console.log('swiper.params.navigation.nextEl', swiper?.params?.navigation?.nextEl)
+                    // // @ts-ignore
+                    // console.log('navigationPrevRef.current', navigationPrevRef?.current)
+                    // // @ts-ignore
+                    // console.log('navigationNextRef.current', navigationNextRef?.current)
+                    // // @ts-ignore
+                    // console.log('swiper.params.navigation.prevEl', swiper?.params?.navigation?.prevEl)
+                    // // @ts-ignore
+                    // console.log('swiper.params.navigation.nextEl', swiper?.params?.navigation?.nextEl)
                     setProgressGallery(swiper.progress)
                     setActiveSlide(swiper.activeIndex + 1)
                 }}
@@ -69,6 +82,7 @@ const PopupSuccessGallery = memo(({mintedImages, className}: PopupSuccessGallery
             {
                 mintedImages?.length > 1 &&
                 <svg
+                    onClick={handleNext}
                     className={classNames(styles.arrow, styles.next, {
                         [styles.inactive]: progressGallery === 1
                     })}
