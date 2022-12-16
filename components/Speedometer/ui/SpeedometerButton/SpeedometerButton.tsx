@@ -35,6 +35,8 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const [isHoverFreeMint, bindHoverFreeMint] = useHover()
     const { chain } = useNetwork()
     const { switchNetwork } = useSwitchNetwork()
+    const {data: isPreSale} = useContractRead(generateContractPainSetting('isPreSale', {}))
+    const {data: isPublicSale} = useContractRead(generateContractPainSetting('isPublicSale', {}))
 
     const [supplies, setSupplies] = useState([])
     const [activePanel, setActivePanel] = useState(null)
@@ -122,9 +124,17 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             return
         }
 
+        if (type === 'paid' && !isPublicSale) {
+            return
+        } else if (type === 'free' && !isPreSale) {
+            return
+        }
+
         dispatch(popupActions.setSelectedTypeMint(type))
         dispatch(popupActions.changeCurrentPopup('mint'))
     }
+
+    const isDisabledButtonMint = !changePrice || changePrice >= 0 || supplies[activePanel] === 0
 
     return (
         <div className={classNames(styles.buttonMint, {
@@ -133,7 +143,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             <div
                 onClick={openModalMint('paid')}
                 className={classNames(styles.wrapperButton, {
-                    [styles.disable]: !changePrice || changePrice >= 0 || supplies[activePanel] === 0
+                    [styles.disable]: isDisabledButtonMint || !isPublicSale
                 })}
                 {...bindHover}
             >
@@ -153,7 +163,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
                 <div
                     onClick={openModalMint('free')}
                     className={classNames(styles.wrapperButton, styles.wrapperButtonFree, {
-                        [styles.disable]: !changePrice || changePrice >= 0 || supplies[activePanel] === 0
+                        [styles.disable]: isDisabledButtonMint || !isPreSale
                     })}
                     {...bindHoverFreeMint}
                 >
