@@ -15,7 +15,7 @@ const avalancheChain: Chain = {
         symbol: 'ETH',
     },
     rpcUrls: {
-        default: 'https://rpc.ankr.com/eth_goerli',
+        default: 'https://eth-goerli.public.blastapi.io',
     },
     blockExplorers: {
         default: {name: 'Görli', url: 'https://goerli.net'},
