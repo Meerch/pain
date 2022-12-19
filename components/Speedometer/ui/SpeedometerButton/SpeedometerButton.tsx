@@ -134,8 +134,11 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             return
         }
 
-        if ((type === 'paid' && !isPublicSale) || (type === 'free' && !isPreSale)) {
-            onAlertError('Free mint / Mint temporary paused')
+        if (type === 'paid' && !isPublicSale) {
+            onAlertError('Mint temporary paused')
+            return
+        } else if (type === 'free' && !isPreSale) {
+            onAlertError('Free mint temporary paused')
             return
         }
 

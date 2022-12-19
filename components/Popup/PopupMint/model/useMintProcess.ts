@@ -14,6 +14,7 @@ import {formatEther, toWei} from "../../../../helpers/utils";
 import {ethers} from "ethers";
 import {popupActions} from "../../../../store/Popup/popupSlice";
 import {chainId} from "../../../../blockchain/config";
+import {useAlert} from "../../../Alerts/useAlert";
 
 
 export const useMintProcess = () => {
@@ -29,9 +30,63 @@ export const useMintProcess = () => {
         enabled: currentRoundId,
         select: (data) => +(data.map(data => toWei(formatEther(data)))[0] / 100 * -1).toFixed(2)
     }))
+    const {onAlertSuccess, onAlertProcess, onAlertError} = useAlert()
     const [error, setError] = useState<string | null>(null)
     const {chain} = useNetwork()
     const {switchNetwork} = useSwitchNetwork()
+
+    const [supplies, setSupplies] = useState([])
+    const [activePanel, setActivePanel] = useState(null)
+    const [amountMax, setAmountMax] = useState(5)
+
+    const changeSupplies = (index: number, data) => {
+        setSupplies(prev => {
+            const clone = [...prev]
+            clone[index] = data
+            return clone
+        })
+    }
+
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [0],
+        onSuccess: (data) => changeSupplies(0, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [1],
+        onSuccess: (data) => changeSupplies(1, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [2],
+        onSuccess: (data) => changeSupplies(2, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+    useContractRead(generateContractPainSetting('availableSupply', {
+        args: [3],
+        onSuccess: (data) => changeSupplies(3, data),
+        select: (data) => toWei(formatEther(data))
+    }))
+
+    useEffect(() => {
+        if (+changePrice <= -15) {
+            setActivePanel(3)
+        } else if (+changePrice <= -10) {
+            setActivePanel(2)
+        } else if (+changePrice <= -5) {
+            setActivePanel(1)
+        } else if (+changePrice < 0) {
+            setActivePanel(0)
+        } else if (+changePrice >= 0) {
+            setActivePanel(null)
+        }
+    }, [changePrice, supplies])
+
+    useEffect(() => {
+        if (supplies[activePanel] < amountMax) {
+            setAmountMax(supplies[activePanel])
+        }
+    }, [supplies, activePanel])
 
     const {
         data: canFreeMint,
@@ -55,6 +110,7 @@ export const useMintProcess = () => {
         onError: error => {
             if (String(error).includes('INSUFFICIENT_FUNDS')) {
                 setError('Insufficient funds')
+                onAlertError('Insufficient funds')
             } else {
                 setError(null)
             }
@@ -98,23 +154,25 @@ export const useMintProcess = () => {
 
         let limit = +changePrice > -15 ? 5 : 3
         const expectedValue = value + amount
-        if (expectedValue > 0 && expectedValue <= limit) {
+
+        if (expectedValue > 0 && expectedValue <= limit && expectedValue <= amountMax) {
             setAmount(prev => prev + value)
         }
     }
 
     useEffect(() => {
         if (!isFreeMint && (!resultMint || !isSuccessMint)) {
+            onAlertError('Transaction Failed')
             return
         }
 
         if (isFreeMint && (!resultFreeMint || !isSuccessFreeMint)) {
+            onAlertError('Transaction Failed')
             return
         }
 
         const ids = []
-        console.log('result mint', resultMint)
-        console.log('result mint', resultFreeMint)
+
         const result = isFreeMint ? resultFreeMint : resultMint
         result?.logs?.forEach(log => {
             const {topics} = log
@@ -133,6 +191,7 @@ export const useMintProcess = () => {
 
     const onClickButton = () => {
         if (isLoading || (error && !isFreeMint)) {
+            onAlertError('Transaction Failed')
             return
         }
 
