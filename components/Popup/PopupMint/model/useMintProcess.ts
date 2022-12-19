@@ -110,7 +110,6 @@ export const useMintProcess = () => {
         onError: error => {
             if (String(error).includes('INSUFFICIENT_FUNDS')) {
                 setError('Insufficient funds')
-                onAlertError('Insufficient funds')
             } else {
                 setError(null)
             }
@@ -162,12 +161,10 @@ export const useMintProcess = () => {
 
     useEffect(() => {
         if (!isFreeMint && (!resultMint || !isSuccessMint)) {
-            onAlertError('Transaction Failed')
             return
         }
 
         if (isFreeMint && (!resultFreeMint || !isSuccessFreeMint)) {
-            onAlertError('Transaction Failed')
             return
         }
 
@@ -182,11 +179,14 @@ export const useMintProcess = () => {
             }
         })
 
-        if (ids) {
+        if (ids && ids.length === 0) {
             dispatch(popupActions.setAmountMintedNfts(ids))
             dispatch(popupActions.changeCurrentPopup('success'))
+        } else {
+            onAlertError('Transaction Failed')
         }
     }, [isSuccessMint, isSuccessFreeMint, resultMint, resultFreeMint])
+
 
 
     const onClickButton = () => {
