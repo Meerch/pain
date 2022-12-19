@@ -100,7 +100,6 @@ const MobilePopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                 {
                     error
                         ? error
-                        // : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
                         : textButtonMint
                 }
             </button>

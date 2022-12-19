@@ -15,6 +15,8 @@ import FOG from 'vanta/dist/vanta.fog.min'
 import soundClick from "../public/sounds/click.mp3";
 import {useCustomSound} from "../hooks/useCustomSound";
 import {volumeSoundsActions} from "../components/StateSound";
+import {useAlert} from "../components/Alerts/useAlert";
+import Alerts from "../components/Alerts/Alerts";
 
 
 export default function Home() {
@@ -24,6 +26,7 @@ export default function Home() {
     const [isReady, setIsReady] = useState(false)
     const [vantaEffect, setVantaEffect] = useState(null)
     const myRef = useRef(null)
+    const {onAlertError} = useAlert()
     const {play} = useCustomSound(soundClick, {
         volume: 0.3
     })
@@ -116,10 +119,13 @@ export default function Home() {
                     </>
                 }
 
-                {currentPopup === 'success' &&
+                {
+                    currentPopup === 'success' &&
                     <PopupSuccess onClose={closeModal}/>
                 }
             </div>
+
+            <Alerts />
         </div>
     )
 }

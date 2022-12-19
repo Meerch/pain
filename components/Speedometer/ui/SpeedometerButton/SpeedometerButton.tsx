@@ -18,6 +18,7 @@ import {
     svgButtonWithoutShadow
 } from './svgButton';
 import {chainId} from "../../../../blockchain/config";
+import {useAlert} from "../../../Alerts/useAlert";
 
 interface SpeedometerButtonMintProps {
     changePrice?: number
@@ -37,6 +38,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const { switchNetwork } = useSwitchNetwork()
     const {data: isPreSale} = useContractRead(generateContractPainSetting('isPreSale', {}))
     const {data: isPublicSale} = useContractRead(generateContractPainSetting('isPublicSale', {}))
+    const {onAlertError} = useAlert()
 
     const [supplies, setSupplies] = useState([])
     const [activePanel, setActivePanel] = useState(null)
@@ -111,9 +113,17 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     }, [address])
 
     const openModalMint = (type: 'paid' | 'free') => () => {
-        if (!changePrice || changePrice >= 0 || supplies[activePanel] === 0) {
+
+        if (!changePrice || changePrice >= 0) {
+            onAlertError('ETH price is change is positive')
             return
         }
+
+        if (supplies[activePanel] === 0) {
+            onAlertError('This level of pain is minted out')
+            return
+        }
+
         if (!address) {
             openConnectModal()
             return
@@ -124,9 +134,8 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             return
         }
 
-        if (type === 'paid' && !isPublicSale) {
-            return
-        } else if (type === 'free' && !isPreSale) {
+        if ((type === 'paid' && !isPublicSale) || (type === 'free' && !isPreSale)) {
+            onAlertError('Free mint / Mint temporary paused')
             return
         }
 

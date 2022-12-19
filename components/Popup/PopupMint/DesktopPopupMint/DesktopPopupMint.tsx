@@ -4,6 +4,7 @@ import PopupLayout from '../../PopupLayout/PopupLayout';
 import classNames from "classnames";
 import {useMintProcess} from '../model/useMintProcess';
 import {description, textButtonMint, title} from '../model/const';
+import Loader from "../../../shared/Loader/Loader";
 
 interface PopupLayoutProps {
     onClose: () => void
@@ -45,7 +46,10 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
             </div>
             {
                 isLoading
-                    ? <div className={styles.loadingBlock}>Loading...</div>
+                    ? <div className={styles.loadingBlock}>
+                        <Loader className={styles.loader}/>
+                        <span className={styles.loaderText}>Loading ...</span>
+                    </div>
                     : <div className={styles.mint}>
                         <span className={styles.title}>{title}</span>
                         <span className={styles.description}>

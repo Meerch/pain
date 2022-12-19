@@ -217,4 +217,12 @@
 .loadingBlock {
     margin: auto;
     font-size: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .loaderText {
+        margin-top: 20px;
+    }
 }

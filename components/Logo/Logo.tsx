@@ -88,8 +88,7 @@ export const Logo = () => {
                 <span className={styles.amount}>
                     {
                         supplies?.length ? 6666 - supplies?.reduce((a, b) => a + b) : 0
-                    }
-                    /6666
+                    } / 6666
                 </span>
             </div>
         </div>

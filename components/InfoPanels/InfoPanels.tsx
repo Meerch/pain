@@ -100,7 +100,7 @@ export const InfoPanels = () => {
                             <span className={styles.change}>{change}</span>
 
                             <span className={styles.supply}>
-                                supply: {supplies[index] ? supplies[index] : 'Loading...'} / {supply}
+                                supply: {supplies[index] !== undefined ? supplies[index] : 'Loading...'} / {supply}
                             </span>
                         </div>
                         <div
