@@ -82,11 +82,6 @@ export const useMintProcess = () => {
         }
     }, [changePrice, supplies])
 
-    useEffect(() => {
-        if (supplies[activePanel] < amountMax) {
-            setAmountMax(supplies[activePanel])
-        }
-    }, [supplies, activePanel])
 
     const {
         data: canFreeMint,
@@ -97,6 +92,7 @@ export const useMintProcess = () => {
     }))
 
     const isFreeMint = selectedTypeMint === 'free' && canFreeMint
+
 
     const [amount, setAmount] = useState(isFreeMint && amountToMint ? amountToMint : 1)
 
@@ -130,8 +126,14 @@ export const useMintProcess = () => {
     const {config: configFreeMint} = usePrepareContractWrite(generateContractPainSetting('feelSomePain', {
         args: [currentRoundId, +amount, signature],
         enabled: isFreeMint && currentRoundId && signature,
-        onError: err => console.log('prepare free mint', err),
-        chainId: chainId,
+        onError: error => {
+            if (String(error).includes('INSUFFICIENT_FUNDS')) {
+                setError('Insufficient funds')
+            } else {
+                setError(null)
+            }
+        },
+        chainId: chainId
     }))
 
     const {write: onFreeMint, data: dataFreeMint, isLoading: isLoadingWriteFreeMint} = useContractWrite(configFreeMint)
@@ -145,6 +147,16 @@ export const useMintProcess = () => {
         || isLoadingWriteMint
         || isLoadingWriteFreeMint
 
+
+    useEffect(() => {
+        if (supplies[activePanel] < amountMax) {
+            setAmountMax(supplies[activePanel])
+        }
+
+        if (isFreeMint && supplies[activePanel] < amountToMint) {
+            setAmount(supplies[activePanel])
+        }
+    }, [supplies, activePanel])
 
     const changeAmount = (value: number) => {
         if (!changePrice || isFreeMint || isLoading || isFreeMint) {
@@ -190,8 +202,7 @@ export const useMintProcess = () => {
 
 
     const onClickButton = () => {
-        if (isLoading || (error && !isFreeMint)) {
-            onAlertError('Transaction Failed')
+        if (isLoading || error) {
             return
         }
 

@@ -84,13 +84,12 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                             </span>
                         }
                         <button onClick={onClickButton} className={classNames(styles.button, {
-                            [styles.inactive]: isLoading || (error && !isFreeMint),
+                            [styles.inactive]: isLoading || error,
                             [styles.maxBottom]: isFreeMint
                         })}>
                             {
-                                (error && !isFreeMint)
+                                error
                                     ? error
-                                    // : canFreeMint ? 'GET FREE PAIN NFT' : 'GET PAIN NFT'
                                     : textButtonMint
                             }
                         </button>
