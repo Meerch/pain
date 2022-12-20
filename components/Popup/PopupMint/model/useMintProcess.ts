@@ -129,9 +129,11 @@ export const useMintProcess = () => {
         onError: error => {
             if (String(error).includes('INSUFFICIENT_FUNDS')) {
                 setError('Insufficient funds')
+            } else if (String(error).includes('INSUFFICIENT_SUPPLY')) {
+                setError('Insufficient supply')
             } else {
-                setError(null)
             }
+            setError(null)
         },
         chainId: chainId
     }))
@@ -198,7 +200,6 @@ export const useMintProcess = () => {
             onAlertError('Transaction Failed')
         }
     }, [isSuccessMint, isSuccessFreeMint, resultMint, resultFreeMint])
-
 
 
     const onClickButton = () => {
