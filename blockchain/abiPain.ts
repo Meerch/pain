@@ -12,13 +12,17 @@ export const abiPain = [{
     "type": "error"
 }, {"inputs": [], "name": "BalanceQueryForZeroAddress", "type": "error"}, {
     "inputs": [],
-    "name": "InvalidQueryRange",
+    "name": "InitialRegistryAddressCannotBeZeroAddress",
     "type": "error"
-}, {"inputs": [], "name": "MintERC2309QuantityExceedsLimit", "type": "error"}, {
+}, {"inputs": [], "name": "InvalidQueryRange", "type": "error"}, {
     "inputs": [],
-    "name": "MintToZeroAddress",
+    "name": "MintERC2309QuantityExceedsLimit",
     "type": "error"
-}, {"inputs": [], "name": "MintZeroQuantity", "type": "error"}, {
+}, {"inputs": [], "name": "MintToZeroAddress", "type": "error"}, {
+    "inputs": [],
+    "name": "MintZeroQuantity",
+    "type": "error"
+}, {"inputs": [], "name": "OnlyOwner", "type": "error"}, {
     "inputs": [{
         "internalType": "address",
         "name": "operator",
@@ -28,15 +32,19 @@ export const abiPain = [{
     "inputs": [],
     "name": "OwnershipNotInitializedForExtraData",
     "type": "error"
-}, {"inputs": [], "name": "TransferCallerNotOwnerNorApproved", "type": "error"}, {
+}, {"inputs": [], "name": "RegistryHasBeenRevoked", "type": "error"}, {
     "inputs": [],
-    "name": "TransferFromIncorrectOwner",
+    "name": "TransferCallerNotOwnerNorApproved",
     "type": "error"
-}, {"inputs": [], "name": "TransferToNonERC721ReceiverImplementer", "type": "error"}, {
+}, {"inputs": [], "name": "TransferFromIncorrectOwner", "type": "error"}, {
     "inputs": [],
-    "name": "TransferToZeroAddress",
+    "name": "TransferToNonERC721ReceiverImplementer",
     "type": "error"
-}, {"inputs": [], "name": "URIQueryForNonexistentToken", "type": "error"}, {
+}, {"inputs": [], "name": "TransferToZeroAddress", "type": "error"}, {
+    "inputs": [],
+    "name": "URIQueryForNonexistentToken",
+    "type": "error"
+}, {
     "anonymous": false,
     "inputs": [{"indexed": true, "internalType": "address", "name": "owner", "type": "address"}, {
         "indexed": true,
@@ -129,7 +137,7 @@ export const abiPain = [{
     "stateMutability": "view",
     "type": "function"
 }, {
-    "inputs": [{"internalType": "address", "name": "to", "type": "address"}, {
+    "inputs": [{"internalType": "address", "name": "operator", "type": "address"}, {
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -211,16 +219,6 @@ export const abiPain = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
-    "inputs": [{"internalType": "uint80", "name": "_roundId", "type": "uint80"}, {
-        "internalType": "uint256",
-        "name": "tokensToMint",
-        "type": "uint256"
-    }, {"internalType": "bytes", "name": "signature", "type": "bytes"}, {
-        "internalType": "int128",
-        "name": "_lastPrice",
-        "type": "int128"
-    }], "name": "feelSomePainTest", "outputs": [], "stateMutability": "nonpayable", "type": "function"
-}, {
     "inputs": [],
     "name": "findRound",
     "outputs": [{"internalType": "uint80", "name": "", "type": "uint80"}],
@@ -267,20 +265,31 @@ export const abiPain = [{
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
+    "name": "getMintDetails",
+    "outputs": [{
+        "components": [{
+            "internalType": "int128",
+            "name": "mintPrice",
+            "type": "int128"
+        }, {"internalType": "int128", "name": "mintDiff", "type": "int128"}],
+        "internalType": "struct SomeTokenV4.PainData",
+        "name": "",
+        "type": "tuple"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "inputs": [{"internalType": "uint80", "name": "_roundId", "type": "uint80"}, {
         "internalType": "uint8",
         "name": "_amount",
         "type": "uint8"
     }], "name": "getMyPain", "outputs": [], "stateMutability": "payable", "type": "function"
 }, {
-    "inputs": [{"internalType": "uint80", "name": "_roundId", "type": "uint80"}, {
-        "internalType": "uint8",
-        "name": "_amount",
-        "type": "uint8"
-    }, {"internalType": "int128", "name": "_lastPrice", "type": "int128"}],
-    "name": "getMyPainTest",
-    "outputs": [],
-    "stateMutability": "payable",
+    "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
+    "name": "getUserPain",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
     "type": "function"
 }, {
     "inputs": [{"internalType": "address", "name": "owner", "type": "address"}, {
@@ -295,6 +304,12 @@ export const abiPain = [{
 }, {
     "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
     "name": "isFreeMinted",
+    "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "isOperatorFilterRegistryRevoked",
     "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
     "stateMutability": "view",
     "type": "function"
@@ -324,6 +339,12 @@ export const abiPain = [{
     "type": "function"
 }, {
     "inputs": [],
+    "name": "operatorFilterRegistry",
+    "outputs": [{"internalType": "contract IOperatorFilterRegistry", "name": "", "type": "address"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "owner",
     "outputs": [{"internalType": "address", "name": "", "type": "address"}],
     "stateMutability": "view",
@@ -335,12 +356,6 @@ export const abiPain = [{
         "type": "uint80"
     }], "name": "ownerMint", "outputs": [], "stateMutability": "nonpayable", "type": "function"
 }, {
-    "inputs": [{"internalType": "uint8", "name": "_amount", "type": "uint8"}, {
-        "internalType": "uint80",
-        "name": "_roundId",
-        "type": "uint80"
-    }], "name": "ownerMintTest", "outputs": [], "stateMutability": "nonpayable", "type": "function"
-}, {
     "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
     "name": "ownerOf",
     "outputs": [{"internalType": "address", "name": "", "type": "address"}],
@@ -348,9 +363,41 @@ export const abiPain = [{
     "type": "function"
 }, {
     "inputs": [],
+    "name": "refuseFromRoyalties",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [{"internalType": "uint256[]", "name": "tokenIds", "type": "uint256[]"}],
+    "name": "resetTokensRoyalties",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "revokeOperatorFilterRegistry",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [{"internalType": "uint256", "name": "_tokenId", "type": "uint256"}, {
+        "internalType": "uint256",
+        "name": "_salePrice",
+        "type": "uint256"
+    }],
+    "name": "royaltyInfo",
+    "outputs": [{"internalType": "address", "name": "", "type": "address"}, {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
     "type": "function"
 }, {
     "inputs": [{"internalType": "address", "name": "from", "type": "address"}, {
@@ -387,6 +434,16 @@ export const abiPain = [{
 }, {
     "inputs": [{"internalType": "address", "name": "_signerAddress", "type": "address"}],
     "name": "setSignerAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [{"internalType": "uint256[]", "name": "tokenIds", "type": "uint256[]"}, {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+    }, {"internalType": "uint96", "name": "feeNumerator", "type": "uint96"}],
+    "name": "setTokensRoyalties",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -469,6 +526,18 @@ export const abiPain = [{
 }, {
     "inputs": [{"internalType": "address", "name": "newOwner", "type": "address"}],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [{"internalType": "address", "name": "receiver", "type": "address"}, {
+        "internalType": "uint96",
+        "name": "feeNumerator",
+        "type": "uint96"
+    }], "name": "updateDefaultRoyalty", "outputs": [], "stateMutability": "nonpayable", "type": "function"
+}, {
+    "inputs": [{"internalType": "address", "name": "newRegistry", "type": "address"}],
+    "name": "updateOperatorFilterRegistryAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
