@@ -41,9 +41,9 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const {onAlertError} = useAlert()
 
     const [supplies, setSupplies] = useState([])
-    const commonSupply = supplies.length === 4 ? supplies.reduce((a, b) => a + b) : 0
-
+    // const commonSupply = supplies.length === 4 ? supplies.reduce((a, b) => a + b) : 0
     const [activePanel, setActivePanel] = useState(null)
+    const currentSupply = supplies[activePanel] || 0
 
     const changeSupplies = (index: number, data) => {
         setSupplies(prev => {
@@ -120,7 +120,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             return
         }
 
-        if (supplies[activePanel] === 0) {
+        if (currentSupply === 0) {
             onAlertError('This level of pain is minted out')
             return
         }
@@ -143,7 +143,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             return
         }
 
-        if (type === 'free' && commonSupply < amountToMint) {
+        if (type === 'free' && currentSupply < amountToMint) {
             return
         }
 
@@ -151,11 +151,11 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
         dispatch(popupActions.changeCurrentPopup('mint'))
     }
 
-    const isDisabledButtonMint = !changePrice || changePrice >= 0 || supplies[activePanel] === 0
+    const isDisabledButtonMint = !changePrice || changePrice >= 0 || currentSupply === 0
 
     return (
         <div className={classNames(styles.buttonMint, {
-            [styles.disable]: !changePrice || changePrice >= 0 || supplies[activePanel] === 0
+            [styles.disable]: isDisabledButtonMint
         })}>
             <div
                 onClick={openModalMint('paid')}
@@ -176,7 +176,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             </div>
 
             {
-                amountToMint > 0 && commonSupply >= amountToMint && canFreeMint &&
+                amountToMint > 0 && currentSupply >= amountToMint && canFreeMint &&
                 <div
                     onClick={openModalMint('free')}
                     className={classNames(styles.wrapperButton, styles.wrapperButtonFree, {
