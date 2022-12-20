@@ -176,11 +176,11 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             </div>
 
             {
-                amountToMint > 0 && currentSupply >= amountToMint && canFreeMint &&
+                amountToMint > 0 && canFreeMint &&
                 <div
                     onClick={openModalMint('free')}
                     className={classNames(styles.wrapperButton, styles.wrapperButtonFree, {
-                        [styles.disable]: isDisabledButtonMint || !isPreSale
+                        [styles.disable]: isDisabledButtonMint || !isPreSale || currentSupply < amountToMint
                     })}
                     {...bindHoverFreeMint}
                 >
