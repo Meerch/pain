@@ -42,7 +42,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const [amountMaxFreeMint, setAmountMaxFreeMint] = useState(amountToMint)
 
     const [supplies, setSupplies] = useState([])
-    const commonSupply = supplies.reduce((a, b) => a + b) || 0
+    const commonSupply = supplies.length > 0 ? supplies.reduce((a, b) => a + b) : 0
 
     const [activePanel, setActivePanel] = useState(null)
 
