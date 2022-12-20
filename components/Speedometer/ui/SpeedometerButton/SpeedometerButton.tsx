@@ -39,7 +39,6 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const {data: isPreSale} = useContractRead(generateContractPainSetting('isPreSale', {}))
     const {data: isPublicSale} = useContractRead(generateContractPainSetting('isPublicSale', {}))
     const {onAlertError} = useAlert()
-    const [amountMaxFreeMint, setAmountMaxFreeMint] = useState(amountToMint)
 
     const [supplies, setSupplies] = useState([])
     const commonSupply = supplies.length === 4 ? supplies.reduce((a, b) => a + b) : 0
@@ -152,13 +151,6 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
         dispatch(popupActions.changeCurrentPopup('mint'))
     }
 
-    useEffect(() => {
-        if (supplies[activePanel] < amountToMint) {
-            setAmountMaxFreeMint(supplies[activePanel])
-        }
-    }, [supplies, activePanel])
-
-
     const isDisabledButtonMint = !changePrice || changePrice >= 0 || supplies[activePanel] === 0
 
     return (
@@ -203,7 +195,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
                     </span>
 
                     <span className={styles.available}>
-                    {amountMaxFreeMint ?? amountToMint ?? 0} available
+                    {amountToMint ?? 0} available
                     </span>
                 </div>
             }
