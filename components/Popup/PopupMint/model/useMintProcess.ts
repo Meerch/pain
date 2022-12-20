@@ -132,8 +132,8 @@ export const useMintProcess = () => {
             } else if (String(error).includes('INSUFFICIENT_SUPPLY')) {
                 setError('Insufficient supply')
             } else {
+                setError(null)
             }
-            setError(null)
         },
         chainId: chainId
     }))
@@ -153,10 +153,6 @@ export const useMintProcess = () => {
     useEffect(() => {
         if (supplies[activePanel] < amountMax) {
             setAmountMax(supplies[activePanel])
-        }
-
-        if (isFreeMint && supplies[activePanel] < amountToMint) {
-            setAmount(supplies[activePanel])
         }
     }, [supplies, activePanel])
 

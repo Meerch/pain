@@ -42,6 +42,8 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     const [amountMaxFreeMint, setAmountMaxFreeMint] = useState(amountToMint)
 
     const [supplies, setSupplies] = useState([])
+    const commonSupply = supplies.reduce((a, b) => a + b) || 0
+
     const [activePanel, setActivePanel] = useState(null)
 
     const changeSupplies = (index: number, data) => {
@@ -114,7 +116,6 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
     }, [address])
 
     const openModalMint = (type: 'paid' | 'free') => () => {
-
         if (!changePrice || changePrice >= 0) {
             onAlertError('ETH price is change is positive')
             return
@@ -140,6 +141,10 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             return
         } else if (type === 'free' && !isPreSale) {
             onAlertError('Free mint temporary paused')
+            return
+        }
+
+        if (type === 'free' && commonSupply < amountToMint) {
             return
         }
 
@@ -179,7 +184,7 @@ const SpeedometerButton = memo((props: SpeedometerButtonMintProps) => {
             </div>
 
             {
-                amountToMint > 0 && canFreeMint &&
+                amountToMint > 0 && commonSupply >= amountToMint && canFreeMint &&
                 <div
                     onClick={openModalMint('free')}
                     className={classNames(styles.wrapperButton, styles.wrapperButtonFree, {
