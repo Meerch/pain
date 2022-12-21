@@ -49,6 +49,7 @@ const DesktopPopupMint: FC<PopupLayoutProps> = ({onClose}) => {
                     ? <div className={styles.loadingBlock}>
                         <Loader className={styles.loader}/>
                         <span className={styles.loaderText}>Loading ...</span>
+                        <span className={styles.tip}>don’t close the window</span>
                     </div>
                     : <div className={styles.mint}>
                         <span className={styles.title}>{title}</span>

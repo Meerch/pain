@@ -178,7 +178,7 @@
             cursor: default;
             background-color: #2E0607;
             color: #504B62;
-            
+
             &:hover {
                 background-color: #2E0607;
             }
@@ -215,7 +215,7 @@
 }
 
 .loadingBlock {
-    margin: auto;
+    margin: 150px auto 0;
     font-size: 40px;
     position: relative;
     display: flex;
@@ -224,5 +224,12 @@
 
     .loaderText {
         margin-top: 20px;
+    }
+
+    .tip {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.58);
+        margin-top: auto;
+        margin-bottom: 20px;
     }
 }

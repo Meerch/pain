@@ -2,6 +2,7 @@ import {Chain, configureChains, createClient} from "wagmi";
 import {jsonRpcProvider} from "wagmi/providers/jsonRpc";
 import {getDefaultWallets} from "@rainbow-me/rainbowkit";
 
+export const isTest = true
 export const addressPainContract = '0xc7fB24d94615B9668c5d87609096999Bf4Daa1fa'
 export const chainId = 5
 

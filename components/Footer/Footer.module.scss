@@ -43,3 +43,12 @@
     display: inline;
   }
 }
+
+.link {
+  color: #960000;
+  transition: color .1s linear;
+
+  &:hover {
+    color: lighten(#960000, 10)
+  }
+}

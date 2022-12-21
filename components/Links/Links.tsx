@@ -32,7 +32,12 @@ export const Links = () => {
                 {/*/>*/}
             </a>
 
-            <a className={styles.link} href="#">
+            <a
+                target='_blank'
+                rel='noreferrer'
+                className={styles.link}
+                href="https://docs.neuralpepe.com/pain-nfts-on-ethereum/pain-faq"
+            >
                 FAQ
                 {/*<img*/}
                 {/*    style={{width: '50px'}}*/}

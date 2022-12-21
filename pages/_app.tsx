@@ -8,11 +8,11 @@ import {store} from '../store/store';
 import '@rainbow-me/rainbowkit/styles.css';
 import {RainbowKitProvider,} from '@rainbow-me/rainbowkit';
 import {chain, WagmiConfig,} from 'wagmi';
-import {chains, wagmiClient} from '../blockchain/config';
+import {chains, isTest, wagmiClient} from '../blockchain/config';
 
 const title = 'Pain'
 const description = '6,666 AI-generated faces of pAIn. You can only mint when the ETH price is down.'
-const url = 'https://pppain.com'
+const url = isTest ? 'https://degendoge.xyz/' : 'https://pppain.com'
 
 function App({Component, pageProps}: AppProps) {
     return <>
