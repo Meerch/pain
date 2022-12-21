@@ -12,7 +12,7 @@ import {chains, isTest, wagmiClient} from '../blockchain/config';
 
 const title = 'Pain'
 const description = '6,666 AI-generated faces of pAIn. You can only mint when the ETH price is down.'
-const url = isTest ? 'https://degendoge.xyz/' : 'https://pppain.com'
+const url = isTest ? 'https://degendoge.xyz' : 'https://pppain.com'
 
 function App({Component, pageProps}: AppProps) {
     return <>
