@@ -10,22 +10,22 @@ import {RootState} from "../../store/store";
 const panels = [
     {
         title: 'mild pain',
-        change: '-5% <= 24 change < 0',
+        change: 'from -5% to 0',
         supply: 2000
     },
     {
         title: 'moderate pain',
-        change: '-10% <= 24 change < -5%',
+        change: 'from -5% to -10%',
         supply: 2000
     },
     {
         title: 'severe pain',
-        change: '-15% <= 24 change < -10%',
+        change: 'from -10% to -15%',
         supply: 2000
     },
     {
         title: 'excruciating pain',
-        change: '24 change < -15%',
+        change: 'from -15% to -20%',
         supply: 666
     },
 ]
