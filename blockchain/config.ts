@@ -3,7 +3,7 @@ import {jsonRpcProvider} from "wagmi/providers/jsonRpc";
 import {getDefaultWallets} from "@rainbow-me/rainbowkit";
 
 export const isTest = true
-export const addressPainContract = '0xe54E387508D026A0f31A7a27102601E8673c8205'
+export const addressPainContract = '0xe56B5d39d84eA44df6817364A94de53eB36C7e92'
 export const chainId = 5
 
 const avalancheChain: Chain = {
